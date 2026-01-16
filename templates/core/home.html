@@ -1,0 +1,46 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block head_extra %}
+<link rel="stylesheet" href="{% static 'css/core/home.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="hero-container">
+    <div class="text-center">
+        <h1 class="text-4xl md:text-5xl font-bold text-heading mb-4">Bem-vindo ao Sistema de Controle de Repartições
+        </h1>
+        <p class="text-lg text-body">Use o menu acima para navegar pelo sistema.</p>
+    </div>
+</div>
+
+
+<main class="container mx-auto px-4 py-8 flex-grow">
+
+    <div class="counter-almoxarifado">
+        <div class="itens-aloxarifado">
+            {% if request.user.is_staff %}
+            <p class="text-lg text-body">ÁREA DE TESTE DOS MODERADORES.</p>
+            <p>
+                <a href="{% url 'request-order' %}">Fazer pedido</a>
+            </p>
+            <p>
+                <a href="{% url 'scanner' %}">Scanner</a>
+            </p>
+            {% endif %}
+        </div>
+    </div>
+
+</main>
+
+
+
+
+
+
+
+{% endblock %}
+
+{% block scripts %}
+
+{% endblock %}

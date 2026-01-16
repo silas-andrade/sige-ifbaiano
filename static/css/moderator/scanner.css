@@ -1,0 +1,82 @@
+/* Container principal */
+.scanner-container {
+    max-width: 600px;
+    margin: 120px auto 40px auto;
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Título */
+.scanner-container h2 {
+    margin-bottom: 20px;
+    color: #111;
+    font-size: 24px;
+}
+
+/* Área do leitor */
+#reader {
+    margin: 0 auto;
+}
+
+/* -------- html5-qrcode overrides -------- */
+
+/* Textos internos */
+#reader,
+#reader * {
+    color: #111 !important;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Labels e títulos internos */
+#reader span,
+#reader label,
+#reader div {
+    color: #111 !important;
+}
+
+/* Select de câmera */
+#reader select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background: #fff;
+    color: #111;
+}
+
+/* Botões */
+#reader button {
+    margin-top: 10px;
+    padding: 10px 16px;
+    border-radius: 6px;
+    border: none;
+    background-color: #111;
+    color: #fff !important;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+#reader button:hover {
+    background-color: #333;
+}
+
+/* Inputs de arquivo */
+#reader input[type="file"] {
+    margin-top: 10px;
+    color: #111;
+}
+
+/* Corrige textos pequenos escondidos */
+#reader a {
+    color: #111 !important;
+    text-decoration: underline;
+}
+
+/* Remove bordas feias */
+#reader video {
+    border-radius: 10px;
+}

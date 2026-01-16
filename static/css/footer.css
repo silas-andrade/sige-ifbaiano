@@ -1,0 +1,40 @@
+/* Footer */
+footer {
+    width: 100%;
+    background-color: #111;
+    color: #fff;
+    padding: 15px 0;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+footer p {
+    margin: 0;
+    font-size: 14px;
+    opacity: 0.85;
+}
+
+footer p:hover {
+    opacity: 1;
+}
+
+/* Estrutura da página */
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding-top: 100px;
+    /* Compensar a navbar fixa */
+    background-color: #f8fafc;
+}
+
+/* Conteúdo principal cresce e empurra o footer */
+.main-content {
+    flex: 1;
+}

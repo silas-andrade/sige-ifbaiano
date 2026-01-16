@@ -1,0 +1,47 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{% static 'css/moderator/scanner.css' %}">
+<script src="https://unpkg.com/html5-qrcode"></script>
+{% endblock %}
+
+{% block content %}
+<div class="scanner-container">
+    <h2>Escaneie o QR Code</h2>
+
+    <div id="reader"></div>
+
+    <form id="form_qrcode_data" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="qrcode_data" id="id_qrcode_data">
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    let alreadyScanned = false;
+
+    function onScanSuccess(decodedText) {
+        if (alreadyScanned) return;
+        alreadyScanned = true;
+
+        document.getElementById("id_qrcode_data").value = decodedText;
+        document.getElementById("form_qrcode_data").submit();
+    }
+
+    function onScanFailure(error) { }
+
+    const html5QrcodeScanner = new Html5QrcodeScanner(
+        "reader",
+        {
+            fps: 10,
+            qrbox: { width: 250, height: 250 }
+        },
+        false
+    );
+
+    html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+</script>
+{% endblock %}
