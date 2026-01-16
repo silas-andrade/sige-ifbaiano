@@ -21,7 +21,7 @@
                 <h2 class="text-xl font-bold text-gray-800" id="user-display-name">{{user.full_name}}</h2>
                 <p class="text-sm text-gray-600" id="user-display-id">{{user.matricula}}</p>
             </div>
-            <div class="h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600">
+            <div class="h-10 w-10 bg-green-100 rounded-full flex items-center justify-center text-green-600">
                 <i class="fa-solid fa-user"></i>
             </div>
         </div>
@@ -78,7 +78,7 @@
             <h3 class="text-2xl font-bold text-gray-800 mb-2">Pedido Realizado!</h3>
             <p class="text-gray-600 mb-6">Dirija-se ao balcão para retirar seus materiais.</p>
             <button onclick="closeModal()"
-                class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition w-full">Novo
+                class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition w-full">Novo
                 Pedido</button>
         </div>
     </div>
@@ -86,7 +86,7 @@
 
     <div id="toast"
         class="fixed bottom-4 right-4 bg-gray-800 text-white px-6 py-3 rounded shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center">
-        <i class="fa-solid fa-info-circle mr-3 text-blue-400"></i>
+        <i class="fa-solid fa-info-circle mr-3 text-green-400"></i>
         <span id="toast-message">Mensagem</span>
     </div>
 
@@ -95,8 +95,7 @@
     <script>
         // --- Simulação de Usuário Logado (Vindo do Login) ---
         const loggedUser = {
-            name: "Ana Pereira",
-            matricula: "2024.10.05 - Turma 3B"
+
         };
 
         // --- Dados Iniciais (Simulando Banco de Dados) ---
@@ -133,7 +132,7 @@
                 const isOutOfStock = item.quantity === 0;
 
                 const card = document.createElement('div');
-                card.className = `bg-white p-4 rounded-lg shadow border-l-4 ${isOutOfStock ? 'border-red-400 opacity-75' : 'border-blue-500'} hover:shadow-md transition duration-200 fade-in`;
+                card.className = `bg-white p-4 rounded-lg shadow border-l-4 ${isOutOfStock ? 'border-red-400 opacity-75' : 'border-green-500'} hover:shadow-md transition duration-200 fade-in`;
 
                 card.innerHTML = `
                     <div class="flex justify-between items-start mb-3">
@@ -150,10 +149,10 @@
                     
                     <div class="flex items-center gap-2 mt-auto">
                         <input type="number" id="qty-${item.id}" min="1" max="${item.quantity}" value="1" 
-                            class="w-16 border rounded p-1 text-center focus:ring-blue-500 focus:border-blue-500 ${isOutOfStock ? 'bg-gray-100 text-gray-400' : ''}" 
+                            class="w-16 border rounded p-1 text-center focus:ring-green-500 focus:border-green-500 ${isOutOfStock ? 'bg-gray-100 text-gray-400' : ''}" 
                             ${isOutOfStock ? 'disabled' : ''}>
                         <button onclick="addToCart(${item.id})" 
-                            class="flex-1 ${isOutOfStock ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'} text-white py-1.5 px-3 rounded text-sm font-medium transition"
+                            class="flex-1 ${isOutOfStock ? 'bg-gray-300 cursor-not-allowed' : 'bg-green-600 hover:bg-green-700'} text-white py-1.5 px-3 rounded text-sm font-medium transition"
                             ${isOutOfStock ? 'disabled' : ''}>
                             Adicionar
                         </button>
@@ -184,7 +183,7 @@
                 row.innerHTML = `
                     <div>
                         <p class="font-semibold text-gray-800 text-sm">${item.name}</p>
-                        <p class="text-xs text-gray-500">Qtd: <span class="font-bold text-blue-600">${item.requestedQty}</span> ${item.unit}</p>
+                        <p class="text-xs text-gray-500">Qtd: <span class="font-bold text-green-600">${item.requestedQty}</span> ${item.unit}</p>
                     </div>
                     <button onclick="removeFromCart(${index})" class="text-red-400 hover:text-red-600 p-1 transition" title="Remover">
                         <i class="fa-solid fa-trash"></i>
