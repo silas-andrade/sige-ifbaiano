@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'almoxarifado',
     'accounts',
     'moderator',
     'django.contrib.admin',

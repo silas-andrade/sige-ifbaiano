@@ -15,6 +15,8 @@ class Item(models.Model):
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     created_at = models.DateTimeField(auto_now_add=True)
+    is_approved = models.BooleanField(default=False)
+    return_date = models.DateTimeField(null=True, blank=True)
     items = models.ManyToManyField(
         Item,
         through='OrderItem',
@@ -29,6 +31,9 @@ class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
+    is_returnable = models.BooleanField(default=False)
+    is_returned = models.BooleanField(default=False)
+
 
     def __str__(self):
         return f"{self.item.name} x {self.quantity}"
