@@ -147,6 +147,12 @@ footer,
     font-weight: 700 !important;
     cursor: pointer;
     text-transform: uppercase;
+
+    /* ESSENCIAL PARA <a> */
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
 }
 
 .forgot-link,

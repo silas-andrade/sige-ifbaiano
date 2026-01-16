@@ -31,8 +31,6 @@ class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
-    is_returnable = models.BooleanField(default=False)
-    is_returned = models.BooleanField(default=False)
 
 
     def __str__(self):

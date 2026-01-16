@@ -4,22 +4,23 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Fazer pedido</title>
-    <script href="{% static 'js/almoxarifado/almoxarifado.js' %}"></script>
+    <title>Fazer Pedido</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="layout">
-    <main class="container mx-auto px-4 py-8 flex-grow">
+<body class="bg-gray-100 min-h-screen">
 
-        <div
-            class="bg-white p-4 rounded-lg shadow-sm mb-8 flex justify-between items-center border-l-4 border-green-600">
+    {% include "nav.html" %}
+
+    <main class="container mx-auto px-4 py-8 mt-20">
+
+        <!-- Header -->
+        <div class="bg-white p-4 rounded-lg shadow mb-8 flex justify-between items-center border-l-4 border-green-600">
             <div>
-                <p class="text-xs text-gray-500 font-bold uppercase">Bem-vindo(a),</p>
-                <h2 class="text-xl font-bold text-gray-800" id="user-display-name">{{user.full_name}}</h2>
-                <p class="text-sm text-gray-600" id="user-display-id">{{user.matricula}}</p>
+                <p class="text-xs text-gray-500 uppercase font-bold">Bem-vindo(a)</p>
+                <h2 class="text-xl font-bold">{{ request.user.full_name }}</h2>
+                <p class="text-sm text-gray-600">{{ request.user.matricula }}</p>
             </div>
             <div class="h-10 w-10 bg-green-100 rounded-full flex items-center justify-center text-green-600">
                 <i class="fa-solid fa-user"></i>
@@ -28,304 +29,140 @@
 
         <div class="flex flex-col lg:flex-row gap-8">
 
-            <!-- Lista de Itens  -->
+            <!-- ITENS -->
             <div class="lg:w-2/3">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-bold text-gray-700">Itens Disponíveis</h2>
-                    <!-- Barra de Busca -->
-                    <div class="relative">
-                        <input type="text" id="searchInput" onkeyup="filterItems()" placeholder="Buscar item..."
-                            class="pl-8 pr-4 py-2 border rounded-full text-sm focus:ring-green-500 focus:border-green-500">
-                        <i class="fa-solid fa-search absolute left-3 top-3 text-gray-400 text-xs"></i>
-                    </div>
-                </div>
+                <h2 class="text-xl font-bold mb-4">Itens Disponíveis</h2>
 
-                <!-- Grid de Produtos -->
                 <div id="inventory-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                    {% for item in items %}
+                    {% if item.quantity_available > 0 %}
+                    <div class="bg-white p-4 rounded shadow item-card" data-item-name="{{ item.name|lower }}">
+                        <h3 class="font-bold">{{ item.name }}</h3>
+                        <p class="text-sm text-gray-500">
+                            Em estoque: {{ item.quantity_available }}
+                        </p>
+                        <button onclick="addToCart('{{ item.id }}', '{{ item.name }}', '{{ item.quantity_available }}')"
+                            class="mt-4 w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded">
+                            <i class="fa-solid fa-plus mr-1"></i> Adicionar
+                        </button>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
                 </div>
             </div>
 
-
+            <!-- CARRINHO -->
             <div class="lg:w-1/3">
-                <div id="cart-panel" class="bg-white rounded-lg shadow-lg sticky top-24 border border-gray-200">
-                    <div class="bg-gray-50 p-4 rounded-t-lg border-b border-gray-200">
-                        <h3 class="font-bold text-lg text-gray-800"><i
-                                class="fa-solid fa-list-check mr-2 text-green-600"></i>Minha Solicitação</h3>
+                <div class="bg-white rounded shadow sticky top-24">
+                    <div class="p-4 border-b font-bold">
+                        Minha Solicitação
                     </div>
 
-                    <div id="cart-items" class="p-4 max-h-[400px] overflow-y-auto space-y-3 min-h-[150px]">
-                        <p class="text-gray-400 text-center italic mt-10">Nenhum item selecionado ainda.</p>
+                    <div id="cart-items" class="p-4 min-h-[150px] text-gray-400 text-center italic">
+                        Nenhum item selecionado.
                     </div>
 
-                    <div class="p-4 border-t border-gray-200 bg-gray-50 rounded-b-lg">
-                        <button onclick="finalizeRequest()"
-                            class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded transition duration-200 shadow-md flex justify-center items-center">
-                            <i class="fa-solid fa-paper-plane mr-2"></i> Enviar Pedido
+                    <div class="p-4 border-t">
+                        <button id="btn-submit" onclick="finalizeRequest()"
+                            class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded font-bold">
+                            Enviar Pedido
                         </button>
                     </div>
                 </div>
             </div>
+
         </div>
     </main>
 
-    {% include "footer.html" %}
 
-    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-        <div class="bg-white rounded-lg p-8 max-w-sm w-full text-center shadow-2xl transform transition-all scale-100">
-            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <i class="fa-solid fa-check text-green-600 text-3xl"></i>
-            </div>
-            <h3 class="text-2xl font-bold text-gray-800 mb-2">Pedido Realizado!</h3>
-            <p class="text-gray-600 mb-6">Dirija-se ao balcão para retirar seus materiais.</p>
-            <button onclick="closeModal()"
-                class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition w-full">Novo
-                Pedido</button>
+
+    <!-- MODAL -->
+    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
+        <div class="bg-white p-6 rounded shadow text-center">
+            <h3 class="text-xl font-bold mb-2">Pedido realizado!</h3>
+            <p class="text-gray-600 mb-4">Dirija-se ao balcão.</p>
+            <button onclick="closeModal()" class="bg-green-600 text-white px-4 py-2 rounded">
+                Novo Pedido
+            </button>
         </div>
     </div>
 
-
-    <div id="toast"
-        class="fixed bottom-4 right-4 bg-gray-800 text-white px-6 py-3 rounded shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center">
-        <i class="fa-solid fa-info-circle mr-3 text-green-400"></i>
-        <span id="toast-message">Mensagem</span>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
     <script>
-        // --- Simulação de Usuário Logado (Vindo do Login) ---
-        const loggedUser = {
-
-        };
-
-        // --- Dados Iniciais (Simulando Banco de Dados) ---
-        const initialInventory = [
-            { id: 1, name: "Caneta Azul", quantity: 50, unit: "un", icon: "fa-pen", category: "Papelaria" },
-            { id: 2, name: "Caneta Vermelha", quantity: 30, unit: "un", icon: "fa-pen", category: "Papelaria" },
-            { id: 3, name: "Bloco de Notas", quantity: 15, unit: "un", icon: "fa-note-sticky", category: "Papelaria" },
-            { id: 4, name: "Papel A4 (Pacote)", quantity: 10, unit: "pct", icon: "fa-copy", category: "Papelaria" },
-            { id: 5, name: "Cabo HDMI", quantity: 5, unit: "un", icon: "fa-plug", category: "Eletrônicos" },
-            { id: 6, name: "Marcador de Quadro", quantity: 12, unit: "un", icon: "fa-pen-to-square", category: "Sala de Aula" },
-            { id: 7, name: "Apagador", quantity: 8, unit: "un", icon: "fa-eraser", category: "Sala de Aula" },
-            { id: 8, name: "Grampeador", quantity: 3, unit: "un", icon: "fa-stapler", category: "Escritório" },
-            { id: 9, name: "Clips (Caixa)", quantity: 20, unit: "cx", icon: "fa-paperclip", category: "Escritório" },
-        ];
-
-        // Estado da Aplicação
-        let inventory = JSON.parse(JSON.stringify(initialInventory)); // Cópia profunda
         let cart = [];
 
-        // --- Funções de Renderização ---
+        function addToCart(id, name, stock) {
+            stock = parseInt(stock);
+            const existing = cart.find(i => i.id === id);
 
-        function renderInventory(items = inventory) {
-            const grid = document.getElementById('inventory-grid');
-            grid.innerHTML = '';
-
-            if (items.length === 0) {
-                grid.innerHTML = '<div class="col-span-full text-center py-10 text-gray-500">Nenhum item encontrado.</div>';
-                return;
+            if (existing) {
+                if (existing.quantity < stock) {
+                    existing.quantity++;
+                }
+            } else {
+                cart.push({ id, name, quantity: 1, maxStock: stock });
             }
+            renderCart();
+        }
 
-            items.forEach(item => {
-                // Determinar cor baseada na disponibilidade
-                const stockColor = item.quantity === 0 ? 'text-red-500' : (item.quantity < 5 ? 'text-orange-500' : 'text-green-600');
-                const isOutOfStock = item.quantity === 0;
-
-                const card = document.createElement('div');
-                card.className = `bg-white p-4 rounded-lg shadow border-l-4 ${isOutOfStock ? 'border-red-400 opacity-75' : 'border-green-500'} hover:shadow-md transition duration-200 fade-in`;
-
-                card.innerHTML = `
-                    <div class="flex justify-between items-start mb-3">
-                        <div class="bg-gray-100 p-3 rounded-full">
-                            <i class="fa-solid ${item.icon} text-xl text-gray-600"></i>
-                        </div>
-                        <span class="text-xs font-bold uppercase tracking-wide text-gray-400">${item.category}</span>
-                    </div>
-                    <h3 class="font-bold text-lg text-gray-800 mb-1">${item.name}</h3>
-                    <p class="text-sm font-medium ${stockColor} mb-4">
-                        <i class="fa-solid fa-box-open mr-1"></i> 
-                        ${isOutOfStock ? 'Esgotado' : `${item.quantity} ${item.unit} disponíveis`}
-                    </p>
-                    
-                    <div class="flex items-center gap-2 mt-auto">
-                        <input type="number" id="qty-${item.id}" min="1" max="${item.quantity}" value="1" 
-                            class="w-16 border rounded p-1 text-center focus:ring-green-500 focus:border-green-500 ${isOutOfStock ? 'bg-gray-100 text-gray-400' : ''}" 
-                            ${isOutOfStock ? 'disabled' : ''}>
-                        <button onclick="addToCart(${item.id})" 
-                            class="flex-1 ${isOutOfStock ? 'bg-gray-300 cursor-not-allowed' : 'bg-green-600 hover:bg-green-700'} text-white py-1.5 px-3 rounded text-sm font-medium transition"
-                            ${isOutOfStock ? 'disabled' : ''}>
-                            Adicionar
-                        </button>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
+        function removeFromCart(id) {
+            cart = cart.filter(i => i.id !== id);
+            renderCart();
         }
 
         function renderCart() {
-            const container = document.getElementById('cart-items');
-            const counter = document.getElementById('cart-counter');
+            const el = document.getElementById('cart-items');
 
-            container.innerHTML = '';
-
-            if (cart.length === 0) {
-                container.innerHTML = '<p class="text-gray-400 text-center italic mt-4"><i class="fa-solid fa-basket-shopping text-4xl mb-2 block opacity-20"></i>Seu carrinho está vazio.</p>';
-                counter.classList.add('hidden');
+            if (!cart.length) {
+                el.innerHTML = 'Nenhum item selecionado.';
                 return;
             }
 
-            counter.innerText = cart.length;
-            counter.classList.remove('hidden');
-
-            cart.forEach((item, index) => {
-                const row = document.createElement('div');
-                row.className = 'flex justify-between items-center bg-white p-3 rounded border border-gray-100 shadow-sm fade-in';
-                row.innerHTML = `
-                    <div>
-                        <p class="font-semibold text-gray-800 text-sm">${item.name}</p>
-                        <p class="text-xs text-gray-500">Qtd: <span class="font-bold text-green-600">${item.requestedQty}</span> ${item.unit}</p>
-                    </div>
-                    <button onclick="removeFromCart(${index})" class="text-red-400 hover:text-red-600 p-1 transition" title="Remover">
+            el.innerHTML = cart.map(item => `
+                <div class="flex justify-between items-center mb-2">
+                    <span>${item.name} (${item.quantity})</span>
+                    <button onclick="removeFromCart('${item.id}')" class="text-red-500">
                         <i class="fa-solid fa-trash"></i>
                     </button>
-                `;
-                container.appendChild(row);
-            });
+                </div>
+            `).join('');
         }
 
-        // --- Lógica de Negócios ---
+        async function finalizeRequest() {
+            if (!cart.length) return;
 
-        function addToCart(id) {
-            const itemIndex = inventory.findIndex(i => i.id === id);
-            const item = inventory[itemIndex];
-            const inputEl = document.getElementById(`qty-${id}`);
-            const qty = parseInt(inputEl.value);
-
-            // Validações
-            if (isNaN(qty) || qty <= 0) {
-                showToast("Por favor, insira uma quantidade válida.", "error");
-                return;
-            }
-            if (qty > item.quantity) {
-                showToast(`Desculpe, só temos ${item.quantity} unidades disponíveis.`, "error");
-                return;
-            }
-
-            // Verificar se já está no carrinho
-            const existingInCart = cart.findIndex(c => c.id === id);
-
-            if (existingInCart !== -1) {
-                // Atualizar quantidade no carrinho
-                const newTotal = cart[existingInCart].requestedQty + qty;
-                if (newTotal > (item.quantity + cart[existingInCart].requestedQty)) {
-                    // Nota: A lógica aqui simplificada assume que item.quantity no array inventory é o que SOBROU. 
-                    // Mas para simplificar a UI, vamos decrementar do estoque visual.
-                    showToast("Quantidade total excede o estoque.", "error");
-                    return;
-                }
-                cart[existingInCart].requestedQty += qty;
-            } else {
-                // Adicionar novo
-                cart.push({ ...item, requestedQty: qty });
-            }
-
-            // Atualizar estoque localmente
-            item.quantity -= qty;
-            inputEl.value = 1; // Resetar input
-
-            renderInventory(filterItemsLogic()); // Re-renderizar mantendo filtro
-            renderCart();
-            showToast(`${qty}x ${item.name} adicionado!`, "success");
-        }
-
-        function removeFromCart(index) {
-            const cartItem = cart[index];
-            const inventoryItem = inventory.find(i => i.id === cartItem.id);
-
-            // Devolver ao estoque
-            inventoryItem.quantity += cartItem.requestedQty;
-
-            // Remover do carrinho
-            cart.splice(index, 1);
-
-            renderInventory(filterItemsLogic());
-            renderCart();
-            showToast("Item removido do pedido.", "info");
-        }
-
-        function filterItems() {
-            renderInventory(filterItemsLogic());
-        }
-
-        function filterItemsLogic() {
-            const term = document.getElementById('searchInput').value.toLowerCase();
-            return inventory.filter(item => item.name.toLowerCase().includes(term));
-        }
-
-        function scrollToCart() {
-            document.getElementById('cart-panel').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function finalizeRequest() {
-            // Removida validação de inputs manuais, usa dados do loggedUser
-            if (cart.length === 0) {
-                showToast("Seu carrinho está vazio.", "error");
-                return;
-            }
-
-            // Aqui você enviaria os dados para um backend (Firebase, SQL, Planilha Google, etc.)
-            console.log("Enviando pedido:", {
-                user: loggedUser.name,
-                uid: loggedUser.matricula,
-                items: cart
+            const response = await fetch("{% url 'request-order-api' %}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCookie("csrftoken")
+                },
+                body: JSON.stringify({ items: cart })
             });
 
-            // Mostrar modal de sucesso
-            document.getElementById('successModal').classList.remove('hidden');
-            document.getElementById('successModal').classList.add('flex');
+            if (response.ok) {
+                document.getElementById('successModal').classList.remove('hidden');
+                document.getElementById('successModal').classList.add('flex');
+                cart = [];
+                renderCart();
+            }
         }
 
         function closeModal() {
-            // Resetar aplicação
             document.getElementById('successModal').classList.add('hidden');
-            document.getElementById('successModal').classList.remove('flex');
-
-            cart = [];
-            // Não limpamos usuário, pois ele continua logado
-            // Nota: Em um app real, recarregaríamos os dados do servidor.
-            // Aqui, mantemos o estoque reduzido para simular que foi pego.
-            renderCart();
-            renderInventory();
         }
 
-        // --- UI Utilities ---
-
-        function showToast(message, type = "info") {
-            const toast = document.getElementById('toast');
-            const msgEl = document.getElementById('toast-message');
-
-            msgEl.innerText = message;
-
-            // Cores do Toast
-            toast.className = `fixed bottom-4 right-4 px-6 py-3 rounded shadow-lg transform transition-all duration-300 z-50 flex items-center translate-y-0 opacity-100 ${type === 'error' ? 'bg-red-600 text-white' :
-                type === 'success' ? 'bg-green-600 text-white' :
-                    'bg-gray-800 text-white'
-                }`;
-
-            setTimeout(() => {
-                toast.classList.add('translate-y-20', 'opacity-0');
-            }, 3000);
+        function getCookie(name) {
+            let cookieValue = null;
+            document.cookie.split(';').forEach(c => {
+                c = c.trim();
+                if (c.startsWith(name + '=')) {
+                    cookieValue = decodeURIComponent(c.split('=')[1]);
+                }
+            });
+            return cookieValue;
         }
-
-        // Inicialização
-        document.addEventListener('DOMContentLoaded', () => {
-            // Exibir dados do usuário logado
-            document.getElementById('user-display-name').innerText = loggedUser.name;
-            document.getElementById('user-display-id').innerText = loggedUser.matricula;
-
-            renderInventory();
-        });
     </script>
+
 </body>
 
 </html>

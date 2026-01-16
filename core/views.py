@@ -9,3 +9,8 @@ def home(request):
     return render(request, 'core/home.html')
 
 
+@login_required(login_url="accounts/login/")
+def about(request):
+    return render(request, 'core/about.html')
+
+

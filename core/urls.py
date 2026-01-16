@@ -3,12 +3,13 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-from core.views import home
+from core.views import home, about
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name='home'),
+    path('about/', about, name='about'),
     #path('almoxarifado/', almoxarifado, name='almoxarifado'),
     
     

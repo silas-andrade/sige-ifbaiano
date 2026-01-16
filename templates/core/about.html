@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sobre os Criadores</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="bg-gray-100">
+
+    {% include "nav.html" %}
+
+    <main class="max-w-screen-xl mx-auto px-6 mt-28">
+
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-12">
+            Sobre os Criadores
+        </h1>
+
+        <!-- GRID -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+
+            <!-- CARD 1 -->
+            <div class="bg-white border rounded-lg shadow-md p-6 text-center">
+                <img src="https://avatars.githubusercontent.com/u/177932208?v=4"
+                    class="w-32 h-32 rounded-full mx-auto mb-6 object-cover" alt="Silas Andrade">
+
+                <h2 class="text-xl font-bold text-gray-800 mb-2">
+                    Lucas Da Hora Vieira
+                </h2>
+
+                <p class="text-gray-600 text-sm leading-relaxed">
+                    Principal desenvolvedor do sistema, responsável pela arquitetura
+                    geral, implementação do backend com Django e integração com o frontend.
+                </p>
+
+            </div>
+
+            <!-- CARD 2 -->
+            <div class="bg-white border rounded-lg shadow-md p-6 text-center">
+                <img src="https://avatars.githubusercontent.com/u/177932208?v=4"
+                    class="w-32 h-32 rounded-full mx-auto mb-6 object-cover" alt="Silas Andrade">
+
+                <h2 class="text-xl font-bold text-gray-800 mb-2">
+                    Silas Andrade
+                </h2>
+
+                <p class="text-gray-600 text-sm leading-relaxed">
+                    Principal desenvolvedor do sistema, responsável pela arquitetura
+                    geral, implementação do backend com Django e integração com o frontend.
+                </p>
+
+                <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif"
+                    class="my-6" />
+                <div class="mt-4 flex justify-center gap-4">
+                    <a href="https://www.instagram.com/silas3_/" target="_blank">
+                        <img src="https://skillicons.dev/icons?i=instagram"
+                            class="w-10 h-10 hover:scale-110 transition">
+                    </a>
+                    <a href="https://www.linkedin.com/in/silas-andrade/" target="_blank">
+                        <img src="https://skillicons.dev/icons?i=linkedin" class="w-10 h-10 hover:scale-110 transition">
+                    </a>
+                    <a href="https://github.com/silas-andrade" target="_blank">
+                        <img src="https://skillicons.dev/icons?i=github" class="w-10 h-10 hover:scale-110 transition">
+                    </a>
+                    <a href="https://gitlab.com/silas-andrade" target="_blank">
+                        <img src="https://skillicons.dev/icons?i=gitlab" class="w-10 h-10 hover:scale-110 transition">
+                    </a>
+                </div>
+
+            </div>
+
+            <!-- CARD 3 -->
+            <div class="bg-white border rounded-lg shadow-md p-6 text-center">
+                <img src="#" class="w-32 h-32 rounded-full mx-auto mb-6 object-cover" alt="GUi">
+
+                <h2 class="text-xl font-bold text-gray-800 mb-2">
+                    Guilherme Henrique
+                </h2>
+
+                <p class="text-gray-600 text-sm leading-relaxed">
+                    Desenvolvedor
+                </p>
+
+            </div>
+
+        </div>
+    </main>
+
+
+
+</body>
+
+</html>

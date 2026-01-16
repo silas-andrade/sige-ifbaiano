@@ -121,10 +121,9 @@ STATIC_URL = '/static/'  # Já está configurado corretamente
 
 # Diretório onde o Django buscará arquivos estáticos durante o desenvolvimento
 STATICFILES_DIRS = [
-    BASE_DIR / 'static',  # Certifique-se de que a pasta "static" está no diretório raiz do projeto
+    BASE_DIR / "static",
 ]
 
 # Diretório onde os arquivos estáticos serão coletados (para produção)
-STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 AUTH_USER_MODEL = 'accounts.User'
