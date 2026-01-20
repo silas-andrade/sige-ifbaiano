@@ -52,12 +52,11 @@ def RequestOrder(request):
 # =========================
 @login_required(login_url='accounts/login/')
 def order_history(request):
-   pass
-   """ orders = Order.objects.filter(user=request.user).order_by('-created_at')
+    orders = Order.objects.filter(user=request.user).order_by('-created_at')
     return render(request, 'almoxarifado/order_history.html', {
         'orders': orders
     })
-"""
+
 
 # =========================
 # ÁREA DO ALMOXARIFE

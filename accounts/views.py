@@ -57,6 +57,16 @@ def LogoutUser(request):
     logout(request)
     return redirect('home')
 
+@login_required(login_url='accounts/login/')
+def ProfilePage(request):
+    user = request.user
+
+    context = {
+        'user': user,
+    }
+
+    return render(request, 'accounts/profile.html', context)
+
 def RecoverPassword(request):
     pass
 

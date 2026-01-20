@@ -4,9 +4,8 @@ body {
 }
 
 .history-container {
-    max-width: 900px;
-    margin: 120px auto 40px;
-    padding: 0 20px;
+    margin-top: 100px;
+    /* ajusta conforme a altura da navbar */
 }
 
 .history-header {

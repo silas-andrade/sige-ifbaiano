@@ -181,11 +181,6 @@
     </div>
 
     <script>
-        // --- CONFIGURAÇÃO DAS TURMAS ---
-        // A, B -> Agropecuária
-        // C, D -> Zootecnia
-        // E, F -> Alimentos
-        // G, H -> Informática
 
         const years = [1, 2, 3];
         const classMap = [
@@ -195,14 +190,12 @@
             { letter: 'D', course: 'Zootecnia' },
             { letter: 'E', course: 'Alimentos' },
             { letter: 'F', course: 'Alimentos' },
-            { letter: 'G', course: 'Informática' },
-            { letter: 'H', course: 'Informática' }
+            { letter: 'G', course: 'Informática' }
         ];
 
         let initialQueue = [];
         let idCounter = 1;
 
-        // Gerar a fila automaticamente: 1º Ano A, 1º Ano B... até 3º Ano H
         years.forEach(year => {
             classMap.forEach(item => {
                 initialQueue.push({
