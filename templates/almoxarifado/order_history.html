@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Histórico de Pedidos</title>
+
+    <link rel="stylesheet" href="{% static 'css/almoxarifado/order_history.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    {% include "nav.html" %}
+
+    <main class="history-container">
+
+        <div class="history-header">
+            <h1>📦 Histórico de Pedidos</h1>
+
+            <!-- BOTÃO VISÍVEL -->
+            <a href="{% url 'request-order' %}" class="btn-new-order">
+                <i class="fa-solid fa-plus"></i> Novo Pedido
+            </a>
+        </div>
+
+        {% for order in orders %}
+        <div class="order-card">
+
+            <div class="order-header">
+                <span class="order-id">Pedido #{{ order.id }}</span>
+
+                {% if order.is_approved %}
+                <span class="status approved">Aprovado</span>
+                {% else %}
+                <span class="status pending">Pendente</span>
+                {% endif %}
+            </div>
+
+            <span class="order-date">
+                <i class="fa-regular fa-clock"></i>
+                {{ order.created_at|date:"d/m/Y H:i" }}
+            </span>
+
+            <ul class="order-items">
+                {% for item in order.orderitem_set.all %}
+                <li>
+                    {{ item.item.name }}
+                    <span>x{{ item.quantity }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+
+        </div>
+        {% empty %}
+        <p class="empty-message">
+            Você ainda não realizou nenhum pedido.
+        </p>
+        {% endfor %}
+
+    </main>
+
+</body>
+
+</html>

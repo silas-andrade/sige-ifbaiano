@@ -1,0 +1,35 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block title %}Solicitar Empréstimo{% endblock %}
+
+{% block extra_css %}
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'CSS/loans/solicitar_emprestimos.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container-emprestimo">
+    <section class="emprestimos-section">
+        <h2>Solicitar Empréstimo de Material</h2>
+
+        <form method="post" class="form-emprestimo">
+            {% csrf_token %}
+
+            {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                <div class="erro">{{ field.errors|join:", " }}</div>
+                {% endif %}
+            </div>
+            {% endfor %}
+
+            <button type="submit" class="btn-enviar">Solicitar</button>
+        </form>
+
+        <a href="/" class="btn-voltar">Voltar para página inicial</a>
+    </section>
+</div>
+{% endblock %}

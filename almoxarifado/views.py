@@ -1,70 +1,98 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.admin.views.decorators import staff_member_required
 
-from accounts.models import User
-from almoxarifado.models import (
-    Order, OrderItem, Item
-    )
-
-@login_required(login_url='accounts/login/')
-def request_order_page(request):
-    items = Item.objects.filter(quantity_available__gt=0)
-
-    context = {
-        "items": items
-    }
-
-    return render(request, 'almoxarifado/requestorder.html', context)
-
-    
-import json
-
-from django.http import JsonResponse
-from django.contrib.auth.decorators import login_required
-from django.views.decorators.http import require_POST
+from almoxarifado.models import Order, OrderItem, Item
 
 
 @login_required(login_url='accounts/login/')
-@require_POST
 def RequestOrder(request):
-    try:
-        data = json.loads(request.body)
-        items = data.get('items', [])
+    if request.method == "POST":
+        items_request = request.POST.getlist("items[]")
 
-        if not items:
-            return JsonResponse({'message': 'Carrinho vazio.'}, status=400)
+        if not items_request:
+            messages.error(request, "Selecione pelo menos um item.")
+            return redirect("request-order")
 
+        # cria o pedido
         order = Order.objects.create(user=request.user)
 
-        for item in items:
-            item_id = item.get('id')
-            quantity = int(item.get('quantity', 0))
+        for item in items_request:
+            item_id, quantity = item.split(":")
+            quantity = int(quantity)
 
-            if quantity <= 0:
-                continue
-
-            product = Item.objects.get(id=item_id)
-
-            if quantity > product.quantity_available:
-                return JsonResponse({
-                    'message': f'Estoque insuficiente para {product.name}'
-                }, status=400)
+            item_obj = Item.objects.get(id=item_id)
+            item_obj.quantity_available -= quantity
+            if quantity > item_obj.quantity_available:
+                messages.error(
+                    request,
+                    f"Estoque insuficiente para {item_obj.name}"
+                )
+                order.delete()
+                return redirect("request-order")
 
             OrderItem.objects.create(
                 order=order,
-                item=product,
-                quantity=quantity,
-                is_returnable=True
+                item=item_obj,
+                quantity=quantity
             )
+        
+        messages.success(request, "Pedido realizado com sucesso!")
+        #return redirect("order-history")
+        return redirect("home")
+    context = {
+        'items': Item.objects.filter(quantity_available__gt=0)
+    }
+    return render(request, 'almoxarifado/requestorder.html', context)
 
-            # Atualiza estoque
-            product.quantity_available -= quantity
-            product.save()
 
-        return JsonResponse({'message': 'Pedido realizado com sucesso'}, status=200)
+# =========================
+# HISTÓRICO DO ALUNO
+# =========================
+@login_required(login_url='accounts/login/')
+def order_history(request):
+   pass
+   """ orders = Order.objects.filter(user=request.user).order_by('-created_at')
+    return render(request, 'almoxarifado/order_history.html', {
+        'orders': orders
+    })
+"""
 
-    except Item.DoesNotExist:
-        return JsonResponse({'message': 'Item não encontrado.'}, status=404)
+# =========================
+# ÁREA DO ALMOXARIFE
+# =========================
+@staff_member_required
+def manage_orders(request):
+    orders = Order.objects.filter(is_approved=False)
+    return render(request, 'almoxarifado/manage_orders.html', {
+        'orders': orders
+    })
 
-    except Exception as e:
-        return JsonResponse({'message': str(e)}, status=500)
+
+@staff_member_required
+def approve_order(request, order_id):
+    order = Order.objects.get(id=order_id)
+
+    if order.is_approved:
+        return redirect('manage-orders')
+
+    for order_item in order.orderitem_set.all():
+        item = order_item.item
+        item.quantity_available -= order_item.quantity
+        item.save()
+
+    order.is_approved = True
+    order.save()
+
+    messages.success(request, "Pedido aprovado com sucesso!")
+    return redirect('manage-orders')
+
+
+@staff_member_required
+def reject_order(request, order_id):
+    order = Order.objects.get(id=order_id)
+    order.delete()
+
+    messages.success(request, "Pedido rejeitado.")
+    return redirect('manage-orders')

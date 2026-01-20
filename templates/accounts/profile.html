@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Perfil do Aluno</title>
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+</head>
+
+<body>
+
+    <div class="profile-container">
+
+        <!-- FOTO + NOME -->
+        <div class="profile-header">
+            <img src="{{ request.user.profile.photo.url|default:'/static/img/default-user.png' }}" alt="Foto do aluno"
+                class="profile-photo">
+
+            <h2>{{ request.user.get_full_name|default:request.user.username }}</h2>
+            <p class="role">Aluno</p>
+        </div>
+
+        <!-- DADOS -->
+        <div class="profile-card">
+            <div class="profile-row">
+                <span class="label">Email</span>
+                <span id="email" class="hidden-data">{{ request.user.email }}</span>
+                <button onclick="toggleVisibility('email')">Mostrar</button>
+            </div>
+
+            <div class="profile-row">
+                <span class="label">Senha</span>
+                <span id="password" class="hidden-data">************</span>
+                <button onclick="togglePassword()">Mostrar</button>
+            </div>
+        </div>
+
+        <!-- AÇÕES -->
+        <div class="profile-actions">
+            <a href="{% url 'order-history' %}" class="btn-primary">
+                Histórico de Itens Pedidos
+            </a>
+
+            <a href="{% url 'logout' %}" class="btn-secondary">
+                Sair
+            </a>
+        </div>
+
+    </div>
+
+    <script>
+        function toggleVisibility(id) {
+            const el = document.getElementById(id);
+            el.classList.toggle('revealed');
+        }
+
+        function togglePassword() {
+            const el = document.getElementById('password');
+            el.classList.toggle('revealed');
+        }
+    </script>
+
+</body>
+
+</html>
