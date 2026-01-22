@@ -10,13 +10,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name='home'),
     path('about/', about, name='about'),
-    #path('almoxarifado/', almoxarifado, name='almoxarifado'),
     
     
     path('accounts/', include('accounts.urls')),
     path('moderator/', include('moderator.urls')),
-    path('almoxarifado/', include('almoxarifado.urls')),
-    path('almocar/', include('almocar.urls'))
+    path('storage/', include('storage.urls')),
+    path('refectory/', include('refectory.urls'))
     ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

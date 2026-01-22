@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.admin.views.decorators import staff_member_required
 
-from almoxarifado.models import Order, OrderItem, Item
+from .models import Order, OrderItem, Item
 
 
 @login_required(login_url='accounts/login/')
@@ -23,14 +23,17 @@ def RequestOrder(request):
             quantity = int(quantity)
 
             item_obj = Item.objects.get(id=item_id)
-            item_obj.quantity_available -= quantity
-            if quantity > item_obj.quantity_available:
+
+            if item_obj.quantity_available < 0:
                 messages.error(
                     request,
                     f"Estoque insuficiente para {item_obj.name}"
                 )
                 order.delete()
                 return redirect("request-order")
+
+            item_obj.quantity_available -= quantity
+            item_obj.save()
 
             OrderItem.objects.create(
                 order=order,
@@ -39,12 +42,11 @@ def RequestOrder(request):
             )
         
         messages.success(request, "Pedido realizado com sucesso!")
-        #return redirect("order-history")
         return redirect("home")
     context = {
         'items': Item.objects.filter(quantity_available__gt=0)
     }
-    return render(request, 'almoxarifado/requestorder.html', context)
+    return render(request, 'storage/requestorder.html', context)
 
 
 # =========================
@@ -53,7 +55,7 @@ def RequestOrder(request):
 @login_required(login_url='accounts/login/')
 def order_history(request):
     orders = Order.objects.filter(user=request.user).order_by('-created_at')
-    return render(request, 'almoxarifado/order_history.html', {
+    return render(request, 'storage/order_history.html', {
         'orders': orders
     })
 
@@ -64,7 +66,7 @@ def order_history(request):
 @staff_member_required
 def manage_orders(request):
     orders = Order.objects.filter(is_approved=False)
-    return render(request, 'almoxarifado/manage_orders.html', {
+    return render(request, 'storage/manage_orders.html', {
         'orders': orders
     })
 
