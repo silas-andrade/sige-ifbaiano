@@ -15,9 +15,16 @@ def refectory_page(request):
 
 
 
+@login_required(login_url='/accounts/login/')
 def create_token(request):
     user = request.user
     token = Token.objects.create(
         user=user,
         )
     return redirect('refectory')    
+
+
+@login_required(login_url='/accounts/login/')
+def validate_token(request):
+    if request.method == 'POST':
+        pass
