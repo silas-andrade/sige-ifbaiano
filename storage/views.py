@@ -6,7 +6,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from .models import Order, OrderItem, Item
 
 
-@login_required(login_url='accounts/login/')
+@login_required(login_url='/accounts/login/')
 def RequestOrder(request):
     if request.method == "POST":
         items_request = request.POST.getlist("items[]")
@@ -52,7 +52,7 @@ def RequestOrder(request):
 # =========================
 # HISTÓRICO DO ALUNO
 # =========================
-@login_required(login_url='accounts/login/')
+@login_required(login_url='/accounts/login/')
 def order_history(request):
     orders = Order.objects.filter(user=request.user).order_by('-created_at')
     return render(request, 'storage/order_history.html', {

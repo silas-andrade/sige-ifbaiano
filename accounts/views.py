@@ -52,12 +52,12 @@ def LoginPage(request):
     return render(request, "accounts/login.html")
 
 
-@login_required(login_url='accounts/login/')
+@login_required(login_url='/accounts/login/')
 def LogoutUser(request):
     logout(request)
     return redirect('home')
 
-@login_required(login_url='accounts/login/')
+@login_required(login_url='/accounts/login/')
 def ProfilePage(request):
     user = request.user
 
