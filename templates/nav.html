@@ -10,19 +10,19 @@
             <ul
                 class="flex flex-col p-4 md:p-0 mt-4 font-medium md:space-x-8 md:flex-row md:mt-0 uppercase text-xs tracking-wider">
                 <li><a href="{% url 'home' %}" class="block py-2 px-3 text-fg-brand ma">Inicial</a></li>
-                <li><a href="{% url 'request-order' %}"class="block py-2 px-3 text-heading hover:text-fg-brand">Almoxarifado</a></li>
-                <li><a href="{% url 'refectory' %}" class="block py-2 px-3 text-heading hover:text-fg-brand">Refeitório</a></li>            
+                <li><a href="{% url 'storage:request-order' %}"class="block py-2 px-3 text-heading hover:text-fg-brand">Almoxarifado</a></li>
+                <li><a href="{% url 'refectory:home' %}" class="block py-2 px-3 text-heading hover:text-fg-brand">Refeitório</a></li>            
                 <li><a href="{% url 'about' %}" class="block py-2 px-3 text-heading hover:text-fg-brand">Criadores</a>
                 </li>
-                <li><a href="{% url 'scanner' %}" class="block py-2 px-3 text-heading hover:text-fg-brand">Scannear</a>
+                <li><a href="{% url 'moderator:scanner' %}" class="block py-2 px-3 text-heading hover:text-fg-brand">Scannear</a>
                 </li>
                 <li>
-                    <a href="{% url 'profile' %}" class="block py-2 px-3 text-heading hover:text-fg-brand">
+                    <a href="{% url 'accounts:profile' %}" class="block py-2 px-3 text-heading hover:text-fg-brand">
                         MEU PERFIL
                     </a>
                 </li>
                 {% if request.user.is_authenticated %}
-                <li><a href="{% url 'logout' %}" class="block py-2 px-3 text-heading hover:text-fg-brand">Sair</a></li>
+                <li><a href="{% url 'accounts:logout' %}" class="block py-2 px-3 text-heading hover:text-fg-brand">Sair</a></li>
                 {% if request.user.is_staff %}
 
                 {% endif %}

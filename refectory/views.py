@@ -1,18 +1,17 @@
-import json
-from django.shortcuts import render, redirect
-from django.http import JsonResponse
-from django.utils import timezone
-from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+
 
 from .models import Token
 
 @login_required(login_url='/accounts/login/')
 def refectory_page(request):
+    user = request.user
+    token = Token.objects.filter()
     context = {
+        'user':user
     }
     return render(request, 'refectory/refectory.html', context)
-
 
 
 @login_required(login_url='/accounts/login/')

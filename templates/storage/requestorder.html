@@ -99,7 +99,7 @@
                     </div>
 
                     <div class="p-4 border-t">
-                        <form method="POST" action="{% url 'request-order' %}" id="order-form">
+                        <form method="POST" action="{% url 'storage:request-order' %}" id="order-form">
                             {% csrf_token %}
                             <div id="cart-hidden-inputs"></div>
 

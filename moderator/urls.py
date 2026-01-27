@@ -6,6 +6,8 @@ from django.conf.urls.static import static
 from .views import *
 
 
+app_name = 'moderator'
+
 urlpatterns = [
     path('scanner/', processar_scan_view, name='scanner'),
     ]

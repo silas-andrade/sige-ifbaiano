@@ -1,7 +1,9 @@
-from django.db.models import Max
-from accounts.models import User  # ajuste se o app tiver outro nome
 from django.db import models
+from django.db.models import Max
+from django.utils import timezone
 import uuid
+
+from accounts.models import User
 
 
 class Token(models.Model):
@@ -13,11 +15,20 @@ class Token(models.Model):
     is_used = models.BooleanField(default=False)
     used_at = models.DateTimeField(null=True, blank=True)
 
+    is_valid = models.BooleanField(default=True)
+    
+
     def __str__(self):
         return f"Ficha {self.token} - {self.user.full_name}"
 
     def save(self, *args, **kwargs):
         if not self.pk:
-            last_token = Token.objects.aggregate(Max('token'))['token__max']
-            self.token = (last_token or 0) + 1
+            today = timezone.now().date()
+
+            last_token_today = Token.objects.filter(
+                created_at__date=today
+            ).aggregate(Max('token'))['token__max']
+
+            self.token = (last_token_today or 0) + 1
+
         super().save(*args, **kwargs)

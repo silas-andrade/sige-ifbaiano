@@ -77,7 +77,7 @@
                         <i data-lucide="qr-code" class="w-16 h-16 opacity-20"></i>
                     </div>
                     <p class="text-gray-500 mb-6 text-sm">Você ainda não gerou sua ficha para hoje.</p>
-                    <form action="{% url 'create-token' %}" method="POST">
+                    <form action="{% url 'refectory:home' %}" method="POST">
                         {% csrf_token %}
                         <button class="w-full bg-green-600 text-white py-3 rounded-xl font-semibold shadow-green-200 shadow-lg hover:bg-green-700 transition active:scale-95 flex items-center justify-center gap-2">
                             Gerar Ficha Agora

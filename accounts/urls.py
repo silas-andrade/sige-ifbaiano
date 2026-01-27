@@ -6,6 +6,8 @@ from . import views
 from .views import LoginPage, RegisterPage, LogoutUser, ProfilePage
 
 
+app_name = 'accounts'
+
 urlpatterns = [
     
     path('register/', RegisterPage, name='register'),

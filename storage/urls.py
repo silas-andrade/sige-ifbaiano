@@ -8,6 +8,8 @@ from .views import (
     reject_order,
 )
 
+app_name = 'storage'
+
 urlpatterns = [
 
     path('request-order/', RequestOrder, name='request-order'),
