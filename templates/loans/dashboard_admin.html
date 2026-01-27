@@ -1,0 +1,109 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block title %}Painel Administrativo{% endblock %}
+
+{% block content %}
+<div class="bg-gray-100 text-gray-800">
+
+    <!-- Botão para mostrar/ocultar o menu lateral em telas pequenas -->
+    <button 
+        id="toggle-sidebar" 
+        class="fixed top-4 left-4 md:hidden z-50 bg-black text-white p-2 rounded">
+        Menu
+    </button>
+    
+    <div class="flex min-h-screen">
+    
+        
+    
+
+        <main class="flex-1 px-6 py-8 mt-16 md:mt-0 space-y-12">
+    
+            <h1 class="text-3xl font-bold">Bem-vindo(a) ao Painel Administrativo</h1>
+    
+            <section>
+                <h2 class="text-2xl font-semibold mb-4">Pedidos Pendentes</h2>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        {% for pedido in pedidos %}
+                            <div class="bg-white rounded-xl shadow p-4 space-y-2">
+                                <p><strong>Usuário:</strong> {{ pedido.user.full_name }}</p>
+                                <p><strong>Matrícula:</strong> {{ pedido.user.username }}</p>
+                                <p><strong>Item:</strong> {{ pedido.material.name }}</p>
+                                <p><strong>Quantidade:</strong> {{ pedido.quantity }}</p>
+                                <p><strong>Data e hora de Empréstimo:</strong> {{ pedido.created_at|date:"d/m/y H:i:s" }}</p>
+                                <p><strong>Data e hora prevista de Devolução:</strong> {{ pedido.expected_return_date|date:"d/m/y H:i:s" }}</p>
+    
+                                <div class="flex gap-2 mt-2">
+                                    <form method="post" action="{% url 'accept-loan-application' pedido.id %}">
+                                        {% csrf_token %}
+                                        <button class="bg-green-600 hover:bg-green-700 text-white px-4 py-1 rounded">Aceitar</button>
+                                    </form>
+                                    <form method="post" action="{% url 'reject-loan-application' pedido.id %}">
+                                        {% csrf_token %}
+                                        <button class="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded">Recusar</button>
+                                    </form>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+            </section>
+
+        <section>
+            <h2 class="text-2xl font-semibold mb-4">Empréstimos esperando devolução</h2>
+                <div class="grid md:grid-cols-2 gap-4">
+                    {% for emprestimo in emprestimos_esperando_devolucao %}
+                        <div class="bg-white rounded-xl shadow p-4 space-y-2">
+                            <p><strong>Usuário:</strong> {{ emprestimo.user.full_name }}</p>
+                            <p><strong>Matrícula:</strong> {{ emprestimo.user.username }}</p>
+                            <p><strong>Item:</strong> {{ emprestimo.material.name }}</p>
+                            <p><strong>Data Prevista de Devolução:</strong> {{ emprestimo.expected_return_date|date:"d/m/y H:i:s" }}</p>
+                            <p class="text-sm font-semibold"></p>
+                                
+                        </div>
+                    {% endfor %}
+                </div>
+            <!-- <p class="text-gray-500">Nenhuma devolução prevista.</p> -->
+        </section>
+        <section>
+            <h2 class="text-2xl font-semibold mb-4">Empréstimos esperando confimarção de devolução</h2>
+                <div class="grid md:grid-cols-2 gap-4">
+                    {% for emprestimo in emprestimos_esperando_confimacao_de_devolucao %}
+                        <div class="bg-white rounded-xl shadow p-4 space-y-2">
+                            <p><strong>Usuário:</strong> {{ emprestimo.user.full_name }}</p>
+                            <p><strong>Matrícula:</strong> {{ emprestimo.user.username }}</p>
+                            <p><strong>Item:</strong> {{ emprestimo.material.name }}</p>
+                            <p><strong>Data e hora devolvida:</strong> {{ emprestimo.date_returned|date:"d/m/y H:i:s" }}</p>
+                            <p class="text-sm font-semibold"></p>
+                                
+                            <div class="flex gap-2 mt-2">
+                                <form method="post" action="{% url 'accept-material-return' emprestimo.id %}">
+                                    {% csrf_token %}
+                                    <button class="bg-green-600 hover:bg-green-700 text-white px-4 py-1 rounded">Confirmar</button>
+                                </form>
+                            </div>
+
+                        </div>
+                    {% endfor %}
+                </div>
+            <!-- <p class="text-gray-500">Nenhuma devolução prevista.</p> -->
+        </section>
+    
+    
+        </main>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    const toggleButton = document.getElementById('toggle-sidebar');
+    const sidebar = document.getElementById('sidebar');
+
+    toggleButton.addEventListener('click', () => {
+        sidebar.classList.toggle('-translate-x-full');
+    });
+
+    lucide.createIcons();
+</script>
+{% endblock %}

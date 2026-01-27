@@ -1,11 +1,13 @@
+
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.shortcuts import render, redirect
 from django.db import transaction
-from django.db.models import Max
 from django.utils import timezone
+from django.db.models import Max
 
 from .models import Token
+
 
 @login_required(login_url='/accounts/login/')
 def refectory_page(request):
@@ -61,6 +63,8 @@ def validate_token(request, pk):
     else:
         token = Token.objects.filter(id=pk)
         token.update(
-            is_used = True
+            is_used = True,
+            used_at = timezone.now()
+
         )
         return redirect('refectory:home')
