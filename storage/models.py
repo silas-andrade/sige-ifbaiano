@@ -6,7 +6,6 @@ from accounts.models import User
 class Item(models.Model):
     name = models.CharField(max_length=100)
     quantity_available = models.PositiveIntegerField(default=0)
-    #price = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
         return self.name
@@ -16,7 +15,6 @@ class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     created_at = models.DateTimeField(auto_now_add=True)
     is_approved = models.BooleanField(default=False)
-    #return_date = models.DateTimeField(null=True, blank=True)
     items = models.ManyToManyField(
         Item,
         through='OrderItem',

@@ -32,8 +32,8 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'loans',
-    'almocar',
-    'almoxarifado',
+    'refectory',
+    'storage',
     'accounts',
     'moderator',
     'django.contrib.admin',
