@@ -30,8 +30,8 @@ class Loan(models.Model):
 
 
 class LoanApplication(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    material = models.ForeignKey(Material, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    material = models.ForeignKey(Material, on_delete=models.DO_NOTHING)
     quantity = models.PositiveIntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     expected_return_date = models.DateTimeField()

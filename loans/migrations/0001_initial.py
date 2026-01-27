@@ -32,8 +32,8 @@ class Migration(migrations.Migration):
                 ('expected_return_date', models.DateTimeField()),
                 ('is_pending', models.BooleanField(default=True)),
                 ('is_approved', models.BooleanField(default=False)),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
-                ('material', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='loans.material')),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to=settings.AUTH_USER_MODEL)),
+                ('material', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='loans.material')),
             ],
             options={
                 'ordering': ['-created_at'],
