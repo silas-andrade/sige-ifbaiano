@@ -1,6 +1,9 @@
 {% load static %}
 <aside id="sidebar" class="fixed md:relative transform -translate-x-full md:translate-x-0 transition-transform duration-300 w-64 bg-black p-4 text-white z-40 space-y-6">
     <nav class="flex flex-col space-y-3">
+        <a href="{% url 'home' %}" class="flex items-center font-bold gap-2 text-white">
+            <i data-lucide="clipboard-list" class="w-5 h-5"></i> Voltar para a página inicial
+        </a>
         {% if request.user.is_staff %}
         <a href="{% url 'loans:dashboard-admin' %}" class="flex items-center font-bold gap-2 text-white">
             <i data-lucide="clipboard-list" class="w-5 h-5"></i> Área do(a) Administrador(a)
