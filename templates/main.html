@@ -1,29 +1,29 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
+
+    <!-- ESSENCIAL PARA MOBILE -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>{% block title %}SIGE IF Baiano{% endblock %}</title>
+
+    <!-- TAILWIND (TEM QUE FICAR NO HEAD) -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
     {% block head_extra %}{% endblock %}
 </head>
 
-<body class="layout">
+<body class="bg-gray-100 min-h-screen">
 
-    {% include "nav.html" %}
-
-    <main class="main-content">
-        {% block content %}{% endblock %}
-    </main>
-
+    {% block content %}{% endblock %}
 
     {% block scripts %}{% endblock %}
 
-    <!-- Libs globais -->
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
+    <!-- ICONES -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
+    <!-- FLOWBITE (se usar componentes JS) -->
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
 </body>
-
 </html>

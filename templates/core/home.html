@@ -1,45 +1,126 @@
 {% extends 'main.html' %}
 {% load static %}
 {% block head_extra %}
-<link rel="stylesheet" href="{% static 'css/core/home.css' %}">
+
 {% endblock %}
 
 {% block content %}
 
-<div class="hero-container">
-    <div class="text-center">
-        <h1 class="text-4xl md:text-5xl font-bold text-heading mb-4">Bem-vindo ao Sistema de Controle de Repartições
+<main class="max-w-6xl mx-auto px-4 pt-28 pb-24">
+
+    <!-- TÍTULO -->
+    <div class="text-center mb-8">
+        <h1 class="text-2xl md:text-3xl font-bold text-heading">
+            Painel Principal
         </h1>
-        <p class="text-lg text-body">Use o menu acima para navegar pelo sistema.</p>
-    </div>
-</div>
-
-
-<main class="container mx-auto px-4 py-8 flex-grow">
-
-    <div class="counter-almoxarifado">
-        <div class="itens-aloxarifado">
-            {% if request.user.is_staff %}
-            <p class="text-lg text-body">ÁREA DE TESTE DOS MODERADORES.</p>
-            <p>
-                <a href="{% url 'storage:request-order' %}">Fazer pedido</a>
-            </p>
-            <p>
-                <a href="{% url 'moderator:scanner' %}">Scanner</a>
-            </p>
-            {% endif %}
-        </div>
+        <p class="text-body text-sm mt-1">
+            Escolha um módulo para continuar
+        </p>
     </div>
 
+    <!-- GRID MOBILE-FIRST -->
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+
+        <!-- CARD -->
+        {% if request.user.is_staff %}
+        <a href="{% url 'loans:dashboard-admin' %}"
+           class="active:scale-95 transition-transform
+                  bg-white rounded-3xl shadow-md
+                  min-h-[140px] p-6
+                  flex flex-col items-center justify-center
+                  text-center touch-manipulation">
+            <i data-lucide="home" class="w-12 h-12 text-fg-brand mb-4"></i>
+            <span class="text-base font-semibold text-heading">
+                Empréstimos - Admin
+            </span>
+        </a>
+
+        {% else %}
+
+        <a href="{% url 'loans:dasboard-user' %}"
+           class="active:scale-95 transition-transform
+                  bg-white rounded-3xl shadow-md
+                  min-h-[140px] p-6
+                  flex flex-col items-center justify-center
+                  text-center touch-manipulation">
+            <i data-lucide="home" class="w-12 h-12 text-fg-brand mb-4"></i>
+            <span class="text-base font-semibold text-heading">
+                Empréstimos
+            </span>
+        </a>
+        {% endif %}
+
+        <a href="{% url 'storage:request-order' %}"
+           class="active:scale-95 transition-transform
+                  bg-white rounded-3xl shadow-md
+                  min-h-[140px] p-6
+                  flex flex-col items-center justify-center
+                  text-center touch-manipulation">
+            <i data-lucide="package" class="w-12 h-12 text-fg-brand mb-4"></i>
+            <span class="text-base font-semibold text-heading">
+                Almoxarifado
+            </span>
+        </a>
+
+        <a href="{% url 'refectory:home' %}"
+           class="active:scale-95 transition-transform
+                  bg-white rounded-3xl shadow-md
+                  min-h-[140px] p-6
+                  flex flex-col items-center justify-center
+                  text-center touch-manipulation">
+            <i data-lucide="utensils" class="w-12 h-12 text-fg-brand mb-4"></i>
+            <span class="text-base font-semibold text-heading">
+                Refeitório
+            </span>
+        </a>
+        {% if request.user.is_staff %}
+        <a href="{% url 'moderator:scanner' %}"
+           class="active:scale-95 transition-transform
+                  bg-white rounded-3xl shadow-md
+                  min-h-[140px] p-6
+                  flex flex-col items-center justify-center
+                  text-center touch-manipulation">
+            <i data-lucide="qr-code" class="w-12 h-12 text-fg-brand mb-4"></i>
+            <span class="text-base font-semibold text-heading">
+                Scanner
+            </span>
+        </a>
+        {% endif %}
+
+        <a href="{% url 'accounts:profile' %}"
+           class="active:scale-95 transition-transform
+                  bg-white rounded-3xl shadow-md
+                  min-h-[140px] p-6
+                  flex flex-col items-center justify-center
+                  text-center touch-manipulation">
+            <i data-lucide="user" class="w-12 h-12 text-fg-brand mb-4"></i>
+            <span class="text-base font-semibold text-heading">
+                Meu Perfil
+            </span>
+        </a>
+
+        <a href="{% url 'about' %}"
+           class="active:scale-95 transition-transform
+                  bg-white rounded-3xl shadow-md
+                  min-h-[140px] p-6
+                  flex flex-col items-center justify-center
+                  text-center touch-manipulation">
+            <i data-lucide="info" class="w-12 h-12 text-fg-brand mb-4"></i>
+            <span class="text-base font-semibold text-heading">
+                Criadores
+            </span>
+        </a>
+
+    </div>
 </main>
 
-
-
-
-
-
+<script>
+    lucide.createIcons();
+</script>
 
 {% endblock %}
+
+
 
 {% block scripts %}
 
