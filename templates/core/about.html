@@ -5,117 +5,119 @@
 <head>
     <meta charset="UTF-8">
     <title>Sobre os Criadores</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- Font Awesome para ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 
 <body class="bg-gray-100">
 
     {% include "nav.html" %}
 
-    <main class="max-w-screen-xl mx-auto px-6 mt-28">
+    <main class="max-w-6xl mx-auto px-6 sm:px-8 md:px-12 mt-24 md:mt-28">
 
-        <h1 class="text-3xl font-bold text-center text-gray-800 mb-12">
+        <h1 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12">
             Sobre os Criadores
         </h1>
 
         <!-- GRID -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
 
             <!-- CARD 1 -->
-            <div class="bg-white border rounded-lg shadow-md p-6 text-center">
+            <div
+                class="bg-white border rounded-lg shadow-md p-8 text-center min-w-[280px] max-w-sm flex flex-col justify-between mx-auto">
                 <img src="https://avatars.githubusercontent.com/u/186697279?v=4"
-                    class="w-32 h-32 rounded-full mx-auto mb-6 object-cover" alt="Silas Andrade">
+                    class="w-24 sm:w-28 md:w-32 h-24 sm:h-28 md:h-32 rounded-full mb-6 object-cover mx-auto"
+                    alt="Lucas Da Hora Vieira">
 
-                <h2 class="text-xl font-bold text-gray-800 mb-2">
+                <h2 class="text-lg sm:text-xl font-bold text-gray-800 mb-3">
                     Lucas Da Hora Vieira
                 </h2>
 
-                <p class="text-gray-600 text-sm leading-relaxed">
-                    Desenvolvedor do sistema, se caracterizando como
-                    desenvolvedor fullstack
-                <div class="mt-4 flex justify-center gap-4">
-                    <a href="https://www.instagram.com/eoh_dahora/" target="_blank">
-                        <img src="https://skillicons.dev/icons?i=instagram"
-                            class="w-10 h-10 hover:scale-110 transition">
+                <p class="text-gray-600 text-sm sm:text-base leading-relaxed mb-6 px-2 sm:px-4">
+                    Desenvolvedor do sistema, se caracterizando como desenvolvedor fullstack.
+                </p>
+
+                <div class="flex justify-center gap-6 flex-wrap">
+                    <a href="https://www.instagram.com/eoh_dahora/" target="_blank" aria-label="Instagram Lucas">
+                        <img src="https://skillicons.dev/icons?i=instagram" class="w-10 h-10 hover:scale-110 transition">
                     </a>
-                    <a href="   " target="_blank">
+                    <a href="#" target="_blank" aria-label="GitHub Lucas">
                         <img src="https://skillicons.dev/icons?i=github" class="w-10 h-10 hover:scale-110 transition">
                     </a>
                 </div>
-
             </div>
 
             <!-- CARD 2 -->
-            <div class="bg-white border rounded-lg shadow-md p-6 text-center">
-                <img src="https://avatars.githubusercontent.com/u/177932208?v=4" class="w-32 h-32 rounded-full mx-auto mb-6 object-cover" alt="Silas Andrade">
+            <div
+                class="bg-white border rounded-lg shadow-md p-8 text-center min-w-[280px] max-w-sm flex flex-col justify-between mx-auto">
+                <img src="https://avatars.githubusercontent.com/u/177932208?v=4"
+                    class="w-24 sm:w-28 md:w-32 h-24 sm:h-28 md:h-32 rounded-full mb-6 object-cover mx-auto"
+                    alt="Silas Andrade">
 
-                <h2 class="text-xl font-bold text-gray-800 mb-2">
+                <h2 class="text-lg sm:text-xl font-bold text-gray-800 mb-3">
                     Silas Andrade
                 </h2>
 
-                <p class="text-gray-600 text-sm leading-relaxed">
-                    Desenvolvedor do sistema, responsável pela arquitetura
-                    geral, implementação do backend com Django e integração com o frontend.
+                <p class="text-gray-600 text-sm sm:text-base leading-relaxed mb-6 px-2 sm:px-4">
+                    Desenvolvedor do sistema, responsável pela arquitetura geral, backend em Django e integração frontend.
                 </p>
 
-                <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" class="my-6" />
+                <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif"
+                    class="w-32 sm:w-40 md:w-48 my-6 object-contain mx-auto" alt="Gif Silas" />
 
-                <div class="mt-4 flex justify-center gap-4">
-                    <a href="https://www.instagram.com/silas3_/" target="_blank">
-                        <img src="https://skillicons.dev/icons?i=instagram"
-                            class="w-10 h-10 hover:scale-110 transition">
+                <div class="flex justify-center gap-6 mb-6 flex-wrap">
+                    <a href="https://www.instagram.com/silas3_/" target="_blank" aria-label="Instagram Silas">
+                        <img src="https://skillicons.dev/icons?i=instagram" class="w-10 h-10 hover:scale-110 transition">
                     </a>
-                    <a href="https://www.linkedin.com/in/silas-andrade/" target="_blank">
+                    <a href="https://www.linkedin.com/in/silas-andrade/" target="_blank" aria-label="LinkedIn Silas">
                         <img src="https://skillicons.dev/icons?i=linkedin" class="w-10 h-10 hover:scale-110 transition">
                     </a>
-                    <a href="https://github.com/silas-andrade" target="_blank">
+                    <a href="https://github.com/silas-andrade" target="_blank" aria-label="GitHub Silas">
                         <img src="https://skillicons.dev/icons?i=github" class="w-10 h-10 hover:scale-110 transition">
                     </a>
-                    <a href="https://gitlab.com/silas-andrade" target="_blank">
+                    <a href="https://gitlab.com/silas-andrade" target="_blank" aria-label="GitLab Silas">
                         <img src="https://skillicons.dev/icons?i=gitlab" class="w-10 h-10 hover:scale-110 transition">
                     </a>
                 </div>
-                <p>&nbsp;
-                    <img align="center" src="https://github-readme-stats.vercel.app/api?username=silas-andrade&show_icons=true&theme=tokyonight&hide_border=true&locale=pt-br&border_radius=10" alt="silas-andrade" />
-                </p>
+
+                <img src="https://github-readme-stats.vercel.app/api?username=silas-andrade&show_icons=true&theme=tokyonight&hide_border=true&locale=pt-br&border_radius=10"
+                    class="w-full max-w-xs object-contain mx-auto" alt="silas-andrade" />
             </div>
 
             <!-- CARD 3 -->
-             <div class="bg-white border rounded-lg shadow-md p-6 text-center">
+            <div
+                class="bg-white border rounded-lg shadow-md p-8 text-center min-w-[280px] max-w-sm flex flex-col justify-between mx-auto">
                 <img src="https://avatars.githubusercontent.com/u/186340489?v=4"
-                    class="w-32 h-32 rounded-full mx-auto mb-6 object-cover" alt="Silas Andrade">
+                    class="w-24 sm:w-28 md:w-32 h-24 sm:h-28 md:h-32 rounded-full mb-6 object-cover mx-auto"
+                    alt="Guilherme Henrique">
 
-                <h2 class="text-xl font-bold text-gray-800 mb-2">
-                    Guilherme Henriqe
+                <h2 class="text-lg sm:text-xl font-bold text-gray-800 mb-3">
+                    Guilherme Henrique
                 </h2>
 
-                <p class="text-gray-600 text-sm leading-relaxed">
-                    Desenvolvedor do sistema
+                <p class="text-gray-600 text-sm sm:text-base leading-relaxed mb-6 px-2 sm:px-4">
+                    Desenvolvedor do sistema.
                 </p>
 
                 <img src="https://i.gifer.com/origin/65/6566a2e13e5e7ec485a994c17a338fbc.gif"
-                    class="my-6" />
+                    class="w-32 sm:w-40 md:w-48 my-6 object-contain mx-auto" alt="Gif Guilherme" />
 
-                <div class="mt-4 flex justify-center gap-4">
-                    <a href="https://www.instagram.com/guii.henrique/" target="_blank">
-                        <img src="https://skillicons.dev/icons?i=instagram"
-                            class="w-10 h-10 hover:scale-110 transition">
+                <div class="flex justify-center gap-6 flex-wrap">
+                    <a href="https://www.instagram.com/guii.henrique/" target="_blank" aria-label="Instagram Guilherme">
+                        <img src="https://skillicons.dev/icons?i=instagram" class="w-10 h-10 hover:scale-110 transition">
                     </a>
-                    <a href="https://github.com/Ghs-d" target="_blank">
+                    <a href="https://github.com/Ghs-d" target="_blank" aria-label="GitHub Guilherme">
                         <img src="https://skillicons.dev/icons?i=github" class="w-10 h-10 hover:scale-110 transition">
                     </a>
-
                 </div>
-
             </div>
 
         </div>
     </main>
 
-
-
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </body>
 
 </html>

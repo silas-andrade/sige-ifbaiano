@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 @csrf_protect
 def processar_scan_view(request):
     if request.method == 'POST':
-        qr_data = request.POST.get('qrcode_data', '')
+        qr_data = request.POST.get('token_id')
         
         print("QR recebido:", qr_data)
         return redirect(qr_data)

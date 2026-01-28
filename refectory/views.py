@@ -25,8 +25,42 @@ def refectory_page(request):
     return render(request, 'refectory/refectory.html', context)
 
 
+@login_required(login_url='/accounts/login/')
+def queue_status(request):
+    """
+    Retorna apenas o HTML do status da fila do usuário
+    """
+    user = request.user
+
+    # Todos tokens válidos e não usados, ordenados pelo tempo de criação (fila)
+    tokens = Token.objects.filter(is_used=False, is_valid=True).order_by('created_at')
+
+    # Pega o token do usuário mais recente (ou o único) ainda não usado
+    user_token = tokens.filter(user=user).first()
+
+    if user_token:
+        # Converte para lista para poder usar index()
+        token_list = list(tokens)
+        try:
+            position = token_list.index(user_token) + 1  # posição na fila
+        except ValueError:
+            position = 0
+        est_time = position * 5  # cada ficha leva 5 minutos
+    else:
+        position = 0
+        est_time = 0
+
+    context = {
+        "position": position,
+        "est_time": est_time
+    }
+
+    return render(request, "refectory/partials/queue_status.html", context)
+
+
+
 @require_POST
-@login_required
+@login_required(login_url='/accounts/login/')
 @transaction.atomic
 def create_token(request):
     user = request.user
@@ -54,17 +88,45 @@ def create_token(request):
 
     return redirect('refectory:home')
 
+from django.db import transaction
+
 
 @require_POST
 @login_required(login_url='/accounts/login/')
 def validate_token(request, pk):
     if not request.user.is_staff:
-        redirect('home')
-    else:
-        token = Token.objects.filter(id=pk)
-        token.update(
-            is_used = True,
-            used_at = timezone.now()
+        return redirect('home')
 
-        )
-        return redirect('refectory:home')
+    with transaction.atomic():
+        token = Token.objects.select_for_update().get(id=pk)
+
+        if token.is_used:
+            return redirect('moderator:scanner')
+
+        token.is_used = True
+        token.used_at = timezone.now()
+        token.save()
+
+    return redirect('moderator:scanner')
+
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+
+
+
+@login_required(login_url='/accounts/login/')
+def scan_token(request, pk):
+
+    if not request.user.is_staff:
+        return redirect('home')
+
+    token = get_object_or_404(Token, id=pk)
+
+    if token.is_used:
+        return redirect('moderator:scanner')
+
+    return render(
+        request,
+        "refectory/scan_token.html",
+        {"token": token}
+    )

@@ -36,11 +36,11 @@
                                 <p><strong>Data e hora prevista de Devolução:</strong> {{ pedido.expected_return_date|date:"d/m/y H:i:s" }}</p>
     
                                 <div class="flex gap-2 mt-2">
-                                    <form method="post" action="{% url 'accept-loan-application' pedido.id %}">
+                                    <form method="post" action="{% url 'loans:accept-loan-application' pedido.id %}">
                                         {% csrf_token %}
                                         <button class="bg-green-600 hover:bg-green-700 text-white px-4 py-1 rounded">Aceitar</button>
                                     </form>
-                                    <form method="post" action="{% url 'reject-loan-application' pedido.id %}">
+                                    <form method="post" action="{% url 'loans:reject-loan-application' pedido.id %}">
                                         {% csrf_token %}
                                         <button class="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded">Recusar</button>
                                     </form>

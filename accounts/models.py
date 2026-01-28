@@ -36,6 +36,7 @@ class User(AbstractUser):
     email = models.EmailField(unique=True)
     matricula = models.CharField(max_length=20, unique=True)
     objects = UserManager()  # 👈 MUITO IMPORTANTE
+    is_blocked_loans = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['full_name', 'matricula']
