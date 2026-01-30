@@ -26,7 +26,7 @@ def refectory_page(request):
 
 
 @require_POST
-@login_required
+@login_required(login_url='/accounts/login/')
 @transaction.atomic
 def create_token(request):
     user = request.user
