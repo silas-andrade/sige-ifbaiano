@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Validando ficha...</title>
+</head>
+<body>
+
+<form id="post-form"
+      method="POST"
+      action="{% url 'refectory:validate-token' token.id %}">
+    {% csrf_token %}
+</form>
+
+<script>
+    document.getElementById("post-form").submit();
+</script>
+
+</body>
+</html>

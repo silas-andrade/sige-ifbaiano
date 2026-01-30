@@ -9,7 +9,7 @@ from .forms import LoanApplicationForm
 from accounts.models import User
 
 
-@login_required(login_url="accounts/login/")
+@login_required(login_url="/accounts/login/")
 def RequestLoan(request):
     form = LoanApplicationForm()
 
@@ -17,11 +17,11 @@ def RequestLoan(request):
         user = User.objects.get(email=request.user)
         form = LoanApplicationForm(request.POST)
         if form.is_valid:
-            if not user.is_blocked:
+            if not user.is_blocked_loans:
                 pedido = form.save(commit=False)
                 pedido.user = user
                 pedido.save()
-                return redirect('dashboard-user')
+                return redirect('loans:dashboard-user')
             else:
                 return HttpResponse('<h1>Você está proibido de fazer empréstimos</h1>')
         
@@ -31,14 +31,14 @@ def RequestLoan(request):
     return render(request, "loans/solicitar_emprestimos.html", context)
 
 
-@login_required(login_url="accounts/login/")
+@login_required(login_url="/accounts/login/")
 def MakeLoanReturn(request, pk):
     loan = Loan.objects.get(id=pk)
     if request.user == loan.user:
         loan.is_returned = True
         loan.date_returned = datetime.now()
         loan.save()
-        return redirect('dashboard-user')
+        return redirect('loans:dashboard-user')
     else:
         return HttpResponse('<h1>Você não pode fazer isso!</h1>')
 
@@ -110,13 +110,13 @@ def BlockUser(request, pk):
     else:
         user = User.objects.get(id=pk)
 
-        if user.is_blocked:
-            user.is_blocked = False
+        if user.is_blocked_loans:
+            user.is_blocked_loans = False
         else:
-            user.is_blocked = True
+            user.is_blocked_loans = True
 
         user.save()
-    return redirect('dashboard-admin')
+    return redirect('loans:dashboard-admin')
 
 @login_required(login_url='/accounts/login/')
 def ViewMaterials(request):
@@ -135,15 +135,15 @@ def DeleteMaterial(request, pk):
     if request.user.is_staff:
         materiais = Material.objects.get(id=pk)
         materiais.delete()
-        return redirect('dashboard-admin')
+        return redirect('loans:dashboard-admin')
     else:
-        return redirect('dashboard-user')
+        return redirect('loans:dashboard-user')
 
 
 @login_required(login_url='/accounts/login/')
 def AcceptMaterialReturn(request, pk):
     if not request.user.is_staff:
-        return redirect('dashboard-user')
+        return redirect('loans:dashboard-user')
     else:
         loan = Loan.objects.get(id=pk)
         if loan.is_returned:
@@ -154,14 +154,14 @@ def AcceptMaterialReturn(request, pk):
             material.available_quantity += loan.quantity
             material.save()
 
-            return redirect('dashboard-admin')
-        return redirect('dashboard-admin')
+            return redirect('loans:dashboard-admin')
+        return redirect('loans:dashboard-admin')
 
 
 @login_required(login_url='/accounts/login/')
 def AcceptLoanApplication(request, pk):
     if not request.user.is_staff:
-        return redirect('dashboard-user')
+        return redirect('loans:dashboard-user')
     else:
         loan_application = LoanApplication.objects.get(id=pk)
         material = Material.objects.get(name=loan_application.material.name)
@@ -181,20 +181,20 @@ def AcceptLoanApplication(request, pk):
                 quantity=loan_application.quantity,
                 who_approved=User.objects.get(email=request.user)
             )
-            return redirect('dashboard-admin')
-        return redirect('dashboard-admin')
+            return redirect('loans:dashboard-admin')
+        return redirect('loans:dashboard-admin')
         
 
 
 @login_required(login_url='/accounts/login/')
 def RejectLoanApplication(request, pk):
     if not request.user.is_staff:
-        return redirect('dashboard-user')
+        return redirect('loans:dashboard-user')
     else:
         loan_application = LoanApplication.objects.get(id=pk)
         if loan_application.is_pending:
             loan_application.is_pending = False
             loan_application.is_approved = False
             loan_application.save()
-            return redirect('dashboard-admin')
-        return redirect('dashboard-admin', {"warning":"This request has already been fulfilled"})
+            return redirect('loans:dashboard-admin')
+        return redirect('loans:dashboard-admin', {"warning":"This request has already been fulfilled"})

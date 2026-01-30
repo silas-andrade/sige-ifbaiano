@@ -3,7 +3,6 @@
 
 {% block head_extra %}
 <link rel="stylesheet" href="{% static 'css/moderator/scanner.css' %}">
-<script src="https://unpkg.com/html5-qrcode"></script>
 {% endblock %}
 
 {% block content %}
@@ -11,29 +10,43 @@
     <h2>Escaneie o QR Code</h2>
 
     <div id="reader"></div>
-
-    <form id="form_qrcode_data" method="POST">
-        {% csrf_token %}
-        <input type="hidden" name="qrcode_data" id="id_qrcode_data">
+    
+    <form id="form_qrcode_data"
+    method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="token_id" id="id_token_id">
     </form>
 </div>
 {% endblock %}
 
 {% block scripts %}
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 <script>
+document.addEventListener("DOMContentLoaded", function () {
     let alreadyScanned = false;
 
-    function onScanSuccess(decodedText) {
+    function onScanSuccess(decodedText, decodedResult) {
         if (alreadyScanned) return;
         alreadyScanned = true;
 
-        document.getElementById("id_qrcode_data").value = decodedText;
+        // envia o valor para o form
+        document.getElementById("id_token_id").value = decodedText;
         document.getElementById("form_qrcode_data").submit();
     }
 
-    function onScanFailure(error) { }
+    function onScanFailure(error) {
+        // silencioso de propósito
+        // console.log(error);
+    }
 
-    const html5QrcodeScanner = new Html5QrcodeScanner(
+        function onScanSuccess(decodedText) {
+        console.log("QR lido:", decodedText);
+
+        // Redireciona direto para a URL do QR
+        window.location.href = decodedText;
+    }
+
+    const scanner = new Html5QrcodeScanner(
         "reader",
         {
             fps: 10,
@@ -42,6 +55,10 @@
         false
     );
 
-    html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+    scanner.render(onScanSuccess, onScanFailure);
+
+    
+});
 </script>
+
 {% endblock %}
