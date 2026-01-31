@@ -1,29 +1,58 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- ESSENCIAL PARA MOBILE -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}SIGE IF Baiano{% endblock title %}</title>
 
-    <title>{% block title %}SIGE IF Baiano{% endblock %}</title>
+  <!-- TAILWIND CORRETO -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- TAILWIND (TEM QUE FICAR NO HEAD) -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    {% block head_extra %}{% endblock %}
+  {% block head_extra %}{% endblock head_extra %}
 </head>
 
-<body class="bg-gray-100 min-h-screen">
+<body class="bg-gray-100">
 
-    {% block content %}{% endblock %}
+  {% include "nav.html" %}
 
-    {% block scripts %}{% endblock %}
+  {% block content %}{% endblock content %}
 
-    <!-- ICONES -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+  {% block extra_scripts %}
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const menuBtn = document.getElementById('menuBtn')
+    const sidebar = document.getElementById('sidebar')
+    const overlay = document.getElementById('overlay')
+    const closeBtn = document.getElementById('closeBtn')
 
-    <!-- FLOWBITE (se usar componentes JS) -->
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
+    if (!menuBtn || !sidebar || !overlay || !closeBtn) return
+
+    function openMenu() {
+      sidebar.classList.remove('-translate-x-full')
+      overlay.classList.remove('hidden')
+      document.body.classList.add('overflow-hidden')
+    }
+
+    function closeMenu() {
+      sidebar.classList.add('-translate-x-full')
+      overlay.classList.add('hidden')
+      document.body.classList.remove('overflow-hidden')
+    }
+
+    menuBtn.addEventListener('click', openMenu)
+    closeBtn.addEventListener('click', closeMenu)
+    overlay.addEventListener('click', closeMenu)
+  })
+</script>
+{% endblock %}
+
+
+  <!-- Ícones -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    lucide.createIcons()
+  </script>
+
 </body>
 </html>
