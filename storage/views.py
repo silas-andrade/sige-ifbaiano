@@ -5,6 +5,14 @@ from django.contrib.admin.views.decorators import staff_member_required
 
 from .models import Order, OrderItem, Item
 
+@login_required(login_url='/accounts/login/')
+def MenuStorageUser(request):
+    
+    context = {
+
+    }
+    return render(request, 'storage/menu_storage.html', context)
+
 
 @login_required(login_url='/accounts/login/')
 def RequestOrder(request):

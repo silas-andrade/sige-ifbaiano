@@ -6,12 +6,14 @@ from .views import (
     manage_orders,
     approve_order,
     reject_order,
+    MenuStorageUser,
 )
 
 app_name = 'storage'
 
 urlpatterns = [
 
+    path('menu-storage-user/', MenuStorageUser, name='menu-storage-user'),
     path('request-order/', RequestOrder, name='request-order'),
 
     # Histórico do aluno
