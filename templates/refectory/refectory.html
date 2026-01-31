@@ -1,201 +1,181 @@
+{% extends 'main.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Módulo do Aluno - Refeitório</title>
 
-    <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com"></script>
+{% block title %}
+Módulo do Aluno • Refeitório
+{% endblock %}
 
-    <!-- Lucide -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+{% block head_extra %}
+<!-- Fonte Inter -->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
 
-    <!-- Font -->
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
+  body {
+    font-family: 'Inter', sans-serif;
+  }
 
-        body {
-            font-family: 'Inter', sans-serif;
-        }
+  .animate-fade-in {
+    animation: fadeIn .5s ease-out forwards;
+  }
 
-        .animate-fade-in {
-            animation: fadeIn .5s ease-out forwards;
-        }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+{% endblock head_extra %}
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-    </style>
-</head>
+{% block content %}
+<div class="bg-gray-100 min-h-screen text-gray-800 pb-20">
 
-<body class="bg-gray-100 min-h-screen text-gray-800 pb-20">
+  <!-- ESPAÇO PARA NAVBAR FIXA -->
+  <div class="h-10"></div>
 
-    <!-- NAV -->
-    {% include "nav.html" %}
-    <div class="h-10"></div>
+  <!-- HEADER -->
+  <header class="bg-green-600 text-white p-6 pb-12 rounded-b-[2.5rem] shadow-lg relative z-10">
+    <div class="flex justify-between items-center">
+      <div>
+        <h2 class="text-2xl font-bold">
+          Olá, {{ request.user.full_name }}
+        </h2>
+        <p class="text-green-100 text-sm">
+          Matrícula:
+          <span>{{ request.user.matricula }}</span>
+        </p>
+      </div>
 
-    <!-- HEADER -->
-    <header class="bg-green-600 text-white p-6 pb-12 rounded-b-[2.5rem] shadow-lg relative z-10">
-        <div class="flex justify-between items-center">
-            <div>
-                <h2 class="text-2xl font-bold">
-                    Olá, {{ request.user.full_name }}
-                </h2>
-                <p class="text-green-100 text-sm">
-                    Matrícula:
-                    <span id="student-id-display">{{ request.user.matricula }}</span>
-                </p>
-            </div>
+      <a
+        href="{% url 'accounts:logout' %}"
+        class="p-2 bg-green-500 rounded-full hover:bg-green-400 transition"
+      >
+        <i data-lucide="log-out" class="w-5 h-5"></i>
+      </a>
+    </div>
+  </header>
 
-            <button
-                onclick="alert('Funcionalidade de Logout (já integrado ao seu sistema)')"
-                class="p-2 bg-green-500 rounded-full hover:bg-green-400 transition"
-            >
-                <i data-lucide="log-out" class="w-5 h-5"></i>
-            </button>
-        </div>
-    </header>
+  <!-- MAIN -->
+  <main class="px-4 -mt-4 relative z-10 space-y-6 max-w-md mx-auto">
 
-    <!-- MAIN -->
-    <main class="px-4 -mt-4 relative z-10 space-y-6 max-w-md mx-auto">
+    <!-- NOTIFICAÇÃO -->
+    <div
+      id="notification"
+      class="hidden fixed top-4 left-1/2 -translate-x-1/2
+             bg-gray-800 text-white px-4 py-2 rounded-full
+             shadow-lg text-sm z-50 transition-all duration-300"
+    >
+      Mensagem de notificação
+    </div>
 
-        <!-- NOTIFICAÇÃO -->
-        <div
-            id="notification"
-            class="hidden fixed top-4 left-1/2 -translate-x-1/2
-                   bg-gray-800 text-white px-4 py-2 rounded-full
-                   shadow-lg text-sm z-50 transition-all duration-300"
+    <!-- CARD FICHA -->
+    <section class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+
+      <div class="p-5 border-b border-gray-100 flex justify-between items-center">
+        <h3 class="font-bold text-gray-800 flex items-center gap-2">
+          <i data-lucide="ticket" class="text-green-600 w-5 h-5"></i>
+          Minha Ficha
+        </h3>
+
+        <span
+          id="status-badge"
+          class="hidden text-xs font-bold px-2 py-1 rounded-full
+                 bg-yellow-100 text-yellow-700"
         >
-            Mensagem de notificação
+          AGUARDANDO
+        </span>
+      </div>
+
+      <div class="p-6 flex items-center justify-center min-h-[200px]">
+
+        {% if not token %}
+        <!-- SEM FICHA -->
+        <div class="w-full text-center">
+          <div class="mb-4 flex justify-center text-gray-400">
+            <i data-lucide="qr-code" class="w-16 h-16 opacity-20"></i>
+          </div>
+
+          <p class="text-gray-500 mb-6 text-sm">
+            Você ainda não gerou sua ficha para hoje.
+          </p>
+
+          <form action="{% url 'refectory:create-token' %}" method="POST">
+            {% csrf_token %}
+            <button
+              class="w-full bg-green-600 text-white py-3 rounded-xl
+                     font-semibold shadow-lg shadow-green-200
+                     hover:bg-green-700 transition active:scale-95"
+            >
+              Gerar Ficha Agora
+            </button>
+          </form>
         </div>
 
-        <!-- CARD: FICHA -->
-        <section class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        {% else %}
+        <!-- COM FICHA -->
+        <div class="w-full text-center animate-fade-in">
 
-            <!-- CARD HEADER -->
-            <div class="p-5 border-b border-gray-100 flex justify-between items-center">
-                <h3 class="font-bold text-gray-800 flex items-center gap-2">
-                    <i data-lucide="ticket" class="text-green-600 w-5 h-5"></i>
-                    Minha Ficha
-                </h3>
+          {% if not token.is_used %}
+          <p class="text-sm text-gray-400 uppercase tracking-wide mb-1">
+            Ficha Nº
+          </p>
 
-                <span
-                    id="status-badge"
-                    class="hidden text-xs font-bold px-2 py-1 rounded-full
-                           bg-yellow-100 text-yellow-700"
-                >
-                    AGUARDANDO
-                </span>
+          <div class="text-4xl font-black text-gray-900 tracking-widest mb-6">
+            {{ token.token }}
+          </div>
+
+          <div class="relative inline-block mb-6 p-2 bg-white
+                      border-2 border-dashed border-gray-200 rounded-xl">
+            <div id="qr-image" class="w-64 h-64 mx-auto"></div>
+
+            <div
+              id="success-overlay"
+              class="hidden absolute inset-0 bg-white/80
+                     backdrop-blur-[2px] flex items-center justify-center"
+            >
+              <i data-lucide="check-circle"
+                 class="w-12 h-12 text-green-500 drop-shadow-md"></i>
             </div>
+          </div>
 
-            <!-- CARD BODY -->
-            <div class="p-6 flex items-center justify-center min-h-[200px]">
+          <div
+            hx-get="{% url 'refectory:queue-status' %}"
+            hx-trigger="every 5s"
+            hx-swap="outerHTML"
+          >
+            {# include "refectory/partials/queue_status.html" #}
+          </div>
 
-                <!-- ESTADO: SEM FICHA -->
-                {% if not token %}
-                <div id="state-no-token" class="w-full text-center">
-                    <div class="mb-4 flex justify-center text-gray-400">
-                        <i data-lucide="qr-code" class="w-16 h-16 opacity-20"></i>
-                    </div>
+          {% else %}
+          <div class="text-4xl font-black text-gray-900 tracking-widest mb-6">
+            BOM ALMOÇO!!!
+          </div>
+          {% endif %}
 
-                    <p class="text-gray-500 mb-6 text-sm">
-                        Você ainda não gerou sua ficha para hoje.
-                    </p>
+        </div>
+        {% endif %}
+      </div>
+    </section>
 
-                    <form action="{% url 'refectory:create-token' %}" method="POST">
-                        {% csrf_token %}
-                        <button
-                            class="w-full bg-green-600 text-white py-3 rounded-xl
-                                   font-semibold shadow-lg shadow-green-200
-                                   hover:bg-green-700 transition active:scale-95"
-                        >
-                            Gerar Ficha Agora
-                        </button>
-                    </form>
-                </div>
+  </main>
+</div>
+{% endblock content %}
 
-                {% else %}
-                <!-- ESTADO: COM FICHA -->
-                <div id="state-has-token" class=" w-full text-center animate-fade-in">
-                    <!-- TOKEN -->
-                    {% if not token.is_used %}
-                    <p class="text-sm text-gray-400 uppercase tracking-wide mb-1">
-                        Ficha Nº
-                    </p>
-                    <div class="text-4xl font-black text-gray-900 tracking-widest mb-6">
-                        {{token.token}}
-                    </div>
-                    <div class="relative inline-block mb-6 p-2 bg-white
-                                border-2 border-dashed border-gray-200 rounded-xl">
-                        <div
-                            id="qr-image"
-                            class="w-128 h-128 mx-auto"
-                        ></div>
+{% block extra_scripts %}
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 
+<script>
+  {% if token and not token.is_used %}
+  const qrContainer = document.getElementById("qr-image");
 
-                        <div
-                            id="success-overlay"
-                            class="hidden absolute inset-0 bg-white/80
-                                   backdrop-blur-[2px] flex items-center justify-center"
-                        >
-                            <i data-lucide="check-circle"
-                               class="w-12 h-12 text-green-500 drop-shadow-md"></i>
-                        </div>
-                    </div>
-
-                    <!-- FILA -->
-                    <div
-                        hx-get="{% url 'refectory:queue-status' %}"
-                        hx-trigger="every 5s"
-                        hx-swap="outerHTML"
-                    >
-                        {# include "refectory/partials/queue_status.html" #}
-                    </div>
-                    {% else %}
-                    <div class="text-4xl font-black text-gray-900 tracking-widest mb-6">
-                        BOM ALMOÇO!!!
-                    </div>
-                    
-                    {% endif %}
-
-                    <!-- QR CODE -->
-                    
-
-                </div>
-                {% endif %}
-            </div>
-        </section>
-
-        <!-- FUTUROS MÓDULOS -->
-        <!-- Cardápio, Histórico, Avisos... -->
-
-    </main>
-    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
-    <!-- SCRIPTS -->
-    <script>
-    lucide.createIcons();
-
-    {% if token and not token.is_used %}
-        const qrContainer = document.getElementById("qr-image");
-
-        if (qrContainer) {
-            new QRCode(qrContainer, {
-                text: "{{ request.scheme }}://{{ request.get_host }}{% url 'refectory:scan-token' token.id %}",
-                width: 256,
-                height: 256,
-                correctLevel: QRCode.CorrectLevel.H
-            });
-            
-        }
-    {% endif %}
-
-
-    
+  if (qrContainer) {
+    new QRCode(qrContainer, {
+      text: "{{ request.scheme }}://{{ request.get_host }}{% url 'refectory:scan-token' token.id %}",
+      width: 256,
+      height: 256,
+      correctLevel: QRCode.CorrectLevel.H
+    });
+  }
+  {% endif %}
 </script>
-    <script src="{% static 'js/refectory/refectory.js' %}"></script>
 
-</body>
-</html>
+<script src="{% static 'js/refectory/refectory.js' %}"></script>
+{% endblock extra_scripts %}

@@ -1,19 +1,13 @@
+{% extends 'main.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="pt-br">
 
-<head>
-    <meta charset="UTF-8">
-    <title>Sobre os Criadores</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block head_extra %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">    
+{% endblock head_extra %}
 
-    <!-- Font Awesome para ícones -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
+{% block content %}
+<div class="bg-gray-100">
 
-<body class="bg-gray-100">
-
-    {% include "nav.html" %}
 
     <main class="max-w-6xl mx-auto px-6 sm:px-8 md:px-12 mt-24 md:mt-28">
 
@@ -42,6 +36,9 @@
                 <div class="flex justify-center gap-6 flex-wrap">
                     <a href="https://www.instagram.com/eoh_dahora/" target="_blank" aria-label="Instagram Lucas">
                         <img src="https://skillicons.dev/icons?i=instagram" class="w-10 h-10 hover:scale-110 transition">
+                    </a>
+                    <a href="https://www.linkedin.com/in/lucas-da-hora-a025193a8/" target="_blank" aria-label="LinkedIn Lucas">
+                        <img src="https://skillicons.dev/icons?i=linkedin" class="w-10 h-10 hover:scale-110 transition">
                     </a>
                     <a href="#" target="_blank" aria-label="GitHub Lucas">
                         <img src="https://skillicons.dev/icons?i=github" class="w-10 h-10 hover:scale-110 transition">
@@ -81,9 +78,6 @@
                         <img src="https://skillicons.dev/icons?i=gitlab" class="w-10 h-10 hover:scale-110 transition">
                     </a>
                 </div>
-
-                <img src="https://github-readme-stats.vercel.app/api?username=silas-andrade&show_icons=true&theme=tokyonight&hide_border=true&locale=pt-br&border_radius=10"
-                    class="w-full max-w-xs object-contain mx-auto" alt="silas-andrade" />
             </div>
 
             <!-- CARD 3 -->
@@ -116,8 +110,8 @@
 
         </div>
     </main>
+</div>
+{% endblock content %}
 
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-</body>
-
-</html>
+{% block extra_scripts %}
+    {% endblock extra_scripts %}

@@ -1,120 +1,58 @@
+{% extends 'main.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="pt-br">
-    
-<head>
-    <meta charset="UTF-8">
-    <title>Perfil do Aluno</title>
 
-    <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com"></script>
+{% block title %}
+  Meu perfil
+{% endblock %}
 
-    <!-- CSS do Perfil -->
-    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% block head_extra %}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="{% static 'css/accounts/profile.css' %}" />
+{% endblock %}
 
-    <!-- FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-
-<body class="bg-gray-100 min-h-screen">
-
-    <!-- NAVBAR -->
-    {% include "nav.html" %}
-
+{% block content %}
+  <body class="bg-gray-100 min-h-screen">
     <main class="container mx-auto px-4 py-10 mt-24">
+      <div class="profile-card">
+        <div class="profile-header">
+          <img src="https://static.vecteezy.com/ti/vetor-gratis/p1/26619142-padrao-avatar-perfil-icone-do-social-meios-de-comunicacao-do-utilizador-foto-imagem-vetor.jpg" alt="Foto de perfil" />
 
-        <div class="profile-card">
-
-            <!-- Header -->
-            <div class="profile-header">
-                <img src="https://static.vecteezy.com/ti/vetor-gratis/p1/26619142-padrao-avatar-perfil-icone-do-social-meios-de-comunicacao-do-utilizador-foto-imagem-vetor.jpg"
-                    alt="Foto de perfil">
-
-                <div>
-                    <h2>{{ user.full_name }}</h2>
-                    <p>{{ user.matricula }}</p>
-                </div>
-            </div>
-
-            <!-- Informações -->
-            <div class="profile-body">
-
-                <div class="profile-item">
-                    <span>Email</span>
-                    <div class="secure-field">
-                        <div id="emailField" class="blur-text">
-                            {{ user.email }}
-                        </div>
-                        <button type="button" onclick="toggleEmail()">
-                            <i id="emailIcon" class="fa-solid fa-eye"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="profile-item">
-                    <span>Senha</span>
-                    <div class="secure-field">
-                        <div id="passwordField" class="blur-text">
-                            **************
-                        </div>
-                        <button type="button" onclick="togglePassword()">
-                            <i id="passwordIcon" class="fa-solid fa-eye"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="profile-actions">
-                    <a href="{% url 'storage:order-history' %}">
-                        <i class="fa-solid fa-clock-rotate-left"></i>
-                        Histórico de Itens
-                    </a>
-                    <a href="{% url 'accounts:logout' %}">
-                        <i class="fa-solid fa-clock-rotate-left"></i>
-                        Sair
-                    </a>
-                </div>
-            </div>
+          <div>
+            <h2>{{ user.full_name }}</h2>
+            <p>{{ user.matricula }}</p>
+          </div>
         </div>
 
+        <div class="profile-body">
+          <div class="profile-item">
+            <span>Email</span>
+            <div class="secure-field">
+              <div id="emailField" class="blur-text">{{ user.email }}</div>
+              <button type="button" onclick="toggleEmail()"><i id="emailIcon" class="fa-solid fa-eye"></i></button>
+            </div>
+          </div>
+
+          <div class="profile-item">
+            <span>Senha</span>
+            <div class="secure-field">
+              <div id="passwordField" class="blur-text">**************</div>
+              <button type="button" onclick="togglePassword()"><i id="passwordIcon" class="fa-solid fa-eye"></i></button>
+            </div>
+          </div>
+
+          <div class="profile-actions">
+            <a href="{% url 'storage:order-history' %}">
+              <i class="fa-solid fa-clock-rotate-left"></i>
+              Histórico de Itens
+            </a>
+          </div>
+        </div>
+      </div>
     </main>
+  </body>
+{% endblock %}
 
-    <script>
-        let emailVisible = false;
-        let passwordVisible = false;
-
-        function toggleEmail() {
-            const field = document.getElementById("emailField");
-            const icon = document.getElementById("emailIcon");
-
-            emailVisible = !emailVisible;
-
-            if (emailVisible) {
-                field.style.filter = "none";
-                icon.classList.replace("fa-eye", "fa-eye-slash");
-            } else {
-                field.style.filter = "blur(4px)";
-                icon.classList.replace("fa-eye-slash", "fa-eye");
-            }
-        }
-
-        function togglePassword() {
-            const field = document.getElementById("passwordField");
-            const icon = document.getElementById("passwordIcon");
-
-            passwordVisible = !passwordVisible;
-
-            if (passwordVisible) {
-                field.textContent = "Senha protegida (não exibida)";
-                field.style.filter = "none";
-                icon.classList.replace("fa-eye", "fa-eye-slash");
-            } else {
-                field.textContent = "**************";
-                field.style.filter = "blur(4px)";
-                icon.classList.replace("fa-eye-slash", "fa-eye");
-            }
-        }
-    </script>
-
-</body>
-
-</html>
+{% block extra_scripts %}
+  <script src="{% static 'js/accounts/profile.js' %}"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+{% endblock %}

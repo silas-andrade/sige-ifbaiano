@@ -1,88 +1,73 @@
+{% extends 'main.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="pt-br">
 
-<head>
-    <meta charset="UTF-8">
-    <title>Histórico de Pedidos</title>
+{% block title %}
+Histórico de Pedidos
+{% endblock %}
 
-    <!-- Tailwind (NECESSÁRIO PARA A NAVBAR) -->
-    <script src="https://cdn.tailwindcss.com"></script>
+{% block head_extra %}
+<!-- CSS específico da página -->
+<link rel="stylesheet" href="{% static 'css/order_history.css' %}">
+{% endblock head_extra %}
 
-    <!-- CSS da página -->
-    <link rel="stylesheet" href="{% static 'css/order_history.css' %}">
+{% block content %}
+<main class="history-container">
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
+  <div class="history-header">
+    <h1 class="flex items-center gap-2">
+      <i class="fa-solid fa-box-archive"></i>
+      Histórico de Pedidos
+    </h1>
 
-<body>
+    <a href="{% url 'storage:request-order' %}" class="btn-new-order">
+      <i class="fa-solid fa-plus"></i>
+      Novo Pedido
+    </a>
+  </div>
 
-    <!-- NAVBAR -->
-    {% include "nav.html" %}
+  <section class="orders-list">
 
-    <!-- CONTEÚDO -->
-    <main class="history-container">
+    {% for order in orders %}
+    <div class="order-card">
 
-        <!-- HEADER -->
-        <div class="history-header">
-            <h1>
-                <i class="fa-solid fa-box-archive"></i>
-                Histórico de Pedidos
-            </h1>
+      <div class="order-header">
+        <span class="order-id">Pedido #{{ order.id }}</span>
 
-            <a href="{% url 'storage:request-order' %}" class="btn-new-order">
-                <i class="fa-solid fa-plus"></i>
-                Novo Pedido
-            </a>
-        </div>
+        {% if order.is_approved %}
+        <span class="status approved">
+          <i class="fa-solid fa-check"></i> Aprovado
+        </span>
+        {% else %}
+        <span class="status pending">
+          <i class="fa-solid fa-hourglass-half"></i> Pendente
+        </span>
+        {% endif %}
+      </div>
 
-        <!-- LISTA DE PEDIDOS -->
-        <section class="orders-list">
+      <span class="order-date">
+        <i class="fa-regular fa-clock"></i>
+        {{ order.created_at|date:"d/m/Y H:i" }}
+      </span>
 
-            {% for order in orders %}
-            <div class="order-card">
+      <ul class="order-items">
+        {% for item in order.orderitem_set.all %}
+        <li>
+          <span class="item-name">{{ item.item.name }}</span>
+          <span class="item-qty">x{{ item.quantity }}</span>
+        </li>
+        {% endfor %}
+      </ul>
 
-                <div class="order-header">
-                    <span class="order-id">Pedido #{{ order.id }}</span>
+    </div>
 
-                    {% if order.is_approved %}
-                    <span class="status approved">
-                        <i class="fa-solid fa-check"></i> Aprovado
-                    </span>
-                    {% else %}
-                    <span class="status pending">
-                        <i class="fa-solid fa-hourglass-half"></i> Pendente
-                    </span>
-                    {% endif %}
-                </div>
+    {% empty %}
+    <p class="empty-message text-center">
+      <i class="fa-regular fa-folder-open text-3xl mb-2"></i><br>
+      Você ainda não realizou nenhum pedido.
+    </p>
+    {% endfor %}
 
-                <div class="order-date">
-                    <i class="fa-regular fa-clock"></i>
-                    {{ order.created_at|date:"d/m/Y H:i" }}
-                </div>
+  </section>
 
-                <ul class="order-items">
-                    {% for item in order.orderitem_set.all %}
-                    <li>
-                        <span class="item-name">{{ item.item.name }}</span>
-                        <span class="item-qty">x{{ item.quantity }}</span>
-                    </li>
-                    {% endfor %}
-                </ul>
-
-            </div>
-            {% empty %}
-            <p class="empty-message">
-                <i class="fa-regular fa-folder-open"></i><br>
-                Você ainda não realizou nenhum pedido.
-            </p>
-            {% endfor %}
-
-        </section>
-
-    </main>
-
-</body>
-
-</html>
+</main>
+{% endblock content %}
