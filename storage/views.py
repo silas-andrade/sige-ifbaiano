@@ -7,11 +7,7 @@ from .models import Order, OrderItem, Item
 
 @login_required(login_url='/accounts/login/')
 def MenuStorageUser(request):
-    
-    context = {
-
-    }
-    return render(request, 'storage/menu_storage.html', context)
+    return render(request, 'storage/menu_storage.html')
 
 
 @login_required(login_url='/accounts/login/')
@@ -32,7 +28,7 @@ def RequestOrder(request):
 
             item_obj = Item.objects.get(id=item_id)
 
-            if item_obj.quantity_available < 0:
+            if item_obj.quantity_available <= 0:
                 messages.error(
                     request,
                     f"Estoque insuficiente para {item_obj.name}"
@@ -51,15 +47,13 @@ def RequestOrder(request):
         
         messages.success(request, "Pedido realizado com sucesso!")
         return redirect("home")
+    
     context = {
         'items': Item.objects.filter(quantity_available__gt=0)
     }
     return render(request, 'storage/requestorder.html', context)
 
 
-# =========================
-# HISTÓRICO DO ALUNO
-# =========================
 @login_required(login_url='/accounts/login/')
 def order_history(request):
     orders = Order.objects.filter(user=request.user).order_by('-created_at')
@@ -68,9 +62,6 @@ def order_history(request):
     })
 
 
-# =========================
-# ÁREA DO ALMOXARIFE
-# =========================
 @staff_member_required
 def manage_orders(request):
     orders = Order.objects.filter(is_approved=False)

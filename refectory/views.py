@@ -1,13 +1,11 @@
-
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
-from django.shortcuts import render, redirect
 from django.db import transaction
 from django.utils import timezone
 from django.db.models import Max
 
 from .models import Token
-
 
 @login_required(login_url='/accounts/login/')
 def refectory_page(request):
@@ -56,7 +54,6 @@ def queue_status(request):
     }
 
     return render(request, "refectory/partials/queue_status.html", context)
-
 
 
 @require_POST
@@ -108,11 +105,6 @@ def validate_token(request, pk):
         token.save()
 
     return redirect('moderator:scanner')
-
-from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required
-
-
 
 @login_required(login_url='/accounts/login/')
 def scan_token(request, pk):
