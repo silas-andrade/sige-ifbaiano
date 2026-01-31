@@ -1,44 +1,71 @@
 {% load static %}
-<aside id="sidebar" class="fixed md:relative transform -translate-x-full md:translate-x-0 transition-transform duration-300 w-64 bg-black p-4 text-white z-40 space-y-6">
-    <nav class="flex flex-col space-y-3">
-        <a href="{% url 'home' %}" class="flex items-center font-bold gap-2 text-white">
-            <i data-lucide="clipboard-list" class="w-5 h-5"></i> Voltar para a página inicial
-        </a>
-        {% if request.user.is_staff %}
-        <a href="{% url 'loans:dashboard-admin' %}" class="flex items-center font-bold gap-2 text-white">
-            <i data-lucide="clipboard-list" class="w-5 h-5"></i> Área do(a) Administrador(a)
-        </a>
-        <a href="{% url 'loans:dashboard-user' %}" class="flex items-center font-bold gap-2 text-white">
-            <i data-lucide="clipboard-list" class="w-5 h-5"></i> Início
-        </a>
-        <!--
-            <a href="{% url 'loans:view-materials' %}" class="flex items-center font-bold gap-2 text-white">
-                <i data-lucide="clipboard-list" class="w-5 h-5"></i> Ver materias
-            </a>
-        -->
-        <a href="{% url 'loans:all-loans' %}" class="flex items-center font-bold gap-2 text-white">
-            <i data-lucide="clipboard-list" class="w-5 h-5"></i> Empréstimos
-        </a>
 
-        <a href="{% url 'loans:request-loan' %}" class="flex items-center font-bold gap-2 text-white">
-            <i data-lucide="clipboard-list" class="w-5 h-5"></i> Solicitar Empréstimo
-        </a>
-        {% else %}
-        
-        <a href="{% url 'loans:dashboard-user' %}" class="flex items-center font-bold gap-2 text-white">
-            <i data-lucide="clipboard-list" class="w-5 h-5"></i> Início
-        </a>
-        
-        <a href="{% url 'loans:request-loan' %}" class="flex items-center font-bold gap-2 text-white">
-            <i data-lucide="clipboard-list" class="w-5 h-5"></i> Solicitar Empréstimo
-        </a>
-        
-        <a href="{% url 'loans:all-loans' %}" class="flex items-center font-bold gap-2 text-white">
-            <i data-lucide="clipboard-list" class="w-5 h-5"></i> Empréstimos
-        </a>
-        {% endif %}
-        <a href="{% url 'accounts:logout' %}" class="flex items-center font-bold gap-2 text-white">
-            <i data-lucide="clipboard-list" class="w-5 h-5"></i> Sair
-        </a>
-    </nav>
+
+<aside id="miniSidebar" class="fixed top-0 left-0 h-full w-14 bg-white border-r border-gray-200 flex items-start justify-center pt-4 z-50">
+  <button id="openSidebar" class="p-2 rounded-lg hover:bg-gray-100 transition text-black"><i data-lucide="menu"></i></button>
+</aside>
+
+
+<div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden md:hidden"></div>
+
+
+<aside id="sidebar" class="fixed top-0 left-0 h-full w-64 bg-white border-r border-gray-200 transform -translate-x-full transition-transform duration-300 z-50 flex flex-col">
+
+  <div class="flex items-center justify-between p-4 border-b">
+    <span class="font-bold text-gray-800 tracking-wide">SIGE • Empréstimos</span>
+
+    <button id="closeSidebar" class="p-2 rounded-lg hover:bg-gray-100 transition text-black"><i data-lucide="X"></i></button>
+  </div>
+
+
+  <nav class="flex-1 p-4 space-y-2 text-sm font-medium uppercase tracking-wider">
+    <a href="{% url 'home' %}" class="sidebar-link">
+      <i class="fa-solid fa-arrow-left"></i>
+      Página inicial
+    </a>
+
+    {% if request.user.is_staff %}
+      <a href="{% url 'loans:dashboard-admin' %}" class="sidebar-link">
+        <i class="fa-solid fa-user-shield"></i>
+        Área do administrador
+      </a>
+
+      <a href="{% url 'loans:dashboard-user' %}" class="sidebar-link">
+        <i class="fa-solid fa-house"></i>
+        Início
+      </a>
+
+      <a href="{% url 'loans:all-loans' %}" class="sidebar-link">
+        <i class="fa-solid fa-boxes-stacked"></i>
+        Empréstimos
+      </a>
+
+      <a href="{% url 'loans:request-loan' %}" class="sidebar-link">
+        <i class="fa-solid fa-plus"></i>
+        Solicitar empréstimo
+      </a>
+    {% else %}
+      <a href="{% url 'loans:dashboard-user' %}" class="sidebar-link">
+        <i class="fa-solid fa-house"></i>
+        Início
+      </a>
+
+      <a href="{% url 'loans:request-loan' %}" class="sidebar-link">
+        <i class="fa-solid fa-plus"></i>
+        Solicitar empréstimo
+      </a>
+
+      <a href="{% url 'loans:all-loans' %}" class="sidebar-link">
+        <i class="fa-solid fa-boxes-stacked"></i>
+        Empréstimos
+      </a>
+    {% endif %}
+  </nav>
+
+  <div class="p-4 border-t">
+    <a href="{% url 'accounts:logout' %}" class="sidebar-link text-red-600 hover:bg-red-50">
+      <i class="fa-solid fa-right-from-bracket"></i>
+      Sair
+    </a>
+  </div>
 </aside>
