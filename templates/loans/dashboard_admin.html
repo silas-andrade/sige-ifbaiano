@@ -6,17 +6,10 @@
 {% block content %}
 <div class="bg-gray-100 text-gray-800">
 
-    <!-- Botão para mostrar/ocultar o menu lateral em telas pequenas -->
-    <button 
-        id="toggle-sidebar" 
-        class="fixed top-4 left-4 md:hidden z-50 bg-black text-white p-2 rounded">
-        Menu
-    </button>
-    
     <div class="flex min-h-screen">
     
         
-        {% include 'loans/sidebar.html' %}
+        
     
 
         <main class="flex-1 px-6 py-8 mt-16 md:mt-0 space-y-12">
@@ -97,14 +90,5 @@
 {% endblock %}
 
 {% block extra_scripts %}
-<script>
-    const toggleButton = document.getElementById('toggle-sidebar');
-    const sidebar = document.getElementById('sidebar');
 
-    toggleButton.addEventListener('click', () => {
-        sidebar.classList.toggle('-translate-x-full');
-    });
-
-    lucide.createIcons();
-</script>
 {% endblock %}

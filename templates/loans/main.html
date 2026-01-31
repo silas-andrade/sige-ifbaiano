@@ -1,43 +1,72 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="author" content="Guilherme henrique e Silas Andrade">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-    <title>{% block title %}JIFB{% endblock %}</title>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Silas Andrade, Guilherme Henrique e Lucas Vieira" />
 
-    {% block extra_css %}{% endblock %}
-</head>
-<body>
+    <!-- CSS -->
+    <link href="{% static 'css/loans/main.css' %}" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
 
-    <!-- Bloco de conteúdo específico de cada página -->
-    {% block content %}
-    
+    <title>
+      {% block title %}
+        Empréstimos | SIGE
+      {% endblock %}
+    </title>
+
+    {% block extra_css %}
+
     {% endblock %}
+  </head>
 
-    <!-- Scripts globais -->
+  <body class="bg-gray-100">
+    <!-- SIDEBAR -->
+    {% include 'loans/sidebar.html' %}
+
+    <!-- CONTEÚDO -->
+    <main class="ml-14 p-6">
+      {% block content %}
+
+      {% endblock %}
+    </main>
+
+    <!-- SCRIPTS GLOBAIS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
     <script>
-        const toggleButton = document.getElementById('toggle-sidebar');
-        const sidebar = document.getElementById('sidebar');
-
-        toggleButton.addEventListener('click', () => {
-            sidebar.classList.toggle('-translate-x-full');
-        });
-
-        lucide.createIcons();
+      lucide.createIcons()
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
 
     {% block extra_scripts %}
-    
+
     {% endblock %}
 
-</body>
-</html>
+    <!-- SCRIPT DA SIDEBAR -->
+    <script>
+      const openBtn = document.getElementById('openSidebar')
+      const closeBtn = document.getElementById('closeSidebar')
+      const sidebar = document.getElementById('sidebar')
+      const overlay = document.getElementById('overlay')
+      
+      function openSidebar() {
+        sidebar.classList.remove('-translate-x-full')
+        if (window.innerWidth < 768) {
+          overlay.classList.remove('hidden')
+        }
+      }
+      
+      function closeSidebar() {
+        sidebar.classList.add('-translate-x-full')
+        overlay.classList.add('hidden')
+      }
+      
+      openBtn?.addEventListener('click', openSidebar)
+      closeBtn?.addEventListener('click', closeSidebar)
+      overlay?.addEventListener('click', closeSidebar)
+    </script>
+  </body>
 </html>
