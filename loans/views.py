@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from datetime import datetime
 
@@ -33,7 +33,7 @@ def RequestLoan(request):
 
 @login_required(login_url="/accounts/login/")
 def MakeLoanReturn(request, pk):
-    loan = Loan.objects.get(id=pk)
+    loan = get_object_or_404(Loan, id=pk)
     if request.user == loan.user:
         loan.is_returned = True
         loan.date_returned = datetime.now()
@@ -69,7 +69,6 @@ def DashboardUser(request):
 def DashboardAdmin(request):
     """
     Mostra aos moderadores todos os pedidos pendentes 
-    e materias disponíveis  
     """
     if not request.user.is_staff:
         return redirect('dashboard-user')
@@ -77,8 +76,6 @@ def DashboardAdmin(request):
     else:
         context = {
             'pedidos':LoanApplication.objects.filter(is_pending=True),
-            'materiais':Material.objects.filter(available_quantity__gte=1),
-            'emprestimos_esperando_devolucao':Loan.objects.filter(is_returned=False),
             'emprestimos_esperando_confimacao_de_devolucao':Loan.objects.filter(is_returned=True, is_return_confirmed=False),
         }
         return render(request, "loans/dashboard_admin.html", context)
@@ -88,15 +85,11 @@ def DashboardAdmin(request):
 @login_required(login_url='/accounts/login/')
 def ViewAllLoans(request):
     user = User.objects.get(email=request.user)
-    emprestimos_devolvidos = list(
-         Loan.objects.filter(user=user, is_return_confirmed=True)
-    )
     emprestimos_nao_devolvidos = list(
-         Loan.objects.filter(user=user, is_return_confirmed=False)
+        Loan.objects.filter(user=user, is_return_confirmed=False)
     )
     
     context = {
-        'emprestimos_devolvidos':emprestimos_devolvidos,
         'emprestimos_nao_devolvidos':emprestimos_nao_devolvidos,
     }
     return render(request, "loans/all_loans.html", context)
@@ -105,7 +98,7 @@ def ViewAllLoans(request):
 @login_required(login_url='/accounts/login/')
 def BlockUser(request, pk):
     if not request.user.is_staff:
-        return redirect('dashboard-user')
+        return redirect('loans:dashboard-user')
     
     else:
         user = User.objects.get(id=pk)
@@ -127,7 +120,7 @@ def ViewMaterials(request):
         }
         return render(request, "moderator/material.html", context)
     else:
-         return redirect('dashboard-user')
+         return redirect('loans:dashboard-user')
     
 
 @login_required(login_url='/accounts/login/')
@@ -147,10 +140,12 @@ def AcceptMaterialReturn(request, pk):
     else:
         loan = Loan.objects.get(id=pk)
         if loan.is_returned:
-            loan.return_confirmed = True
+            loan.is_return_confirmed = True
+            loan.who_confirmed_the_return = User.objects.get(email=request.user)
+
             loan.save()
 
-            material = Material.objects.get(nome=loan.material)
+            material = Material.objects.get(name=loan.material.name)
             material.available_quantity += loan.quantity
             material.save()
 

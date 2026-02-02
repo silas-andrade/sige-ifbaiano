@@ -44,10 +44,10 @@
                     <strong>Item:</strong> {{ loan.material.name }}
                   </p>
                   <p>
-                    <strong>Quantidade:</strong> {{ loan.qunatity }}
+                    <strong>Quantidade:</strong> {{ loan.quantity }}
                   </p>
 
-                  {% if not loan.is_return_confirmed %}
+                  {% if not loan.is_returned %}
                     <p>
                       <strong>Situação:</strong> Não devolvido
                     </p>
@@ -57,7 +57,7 @@
                     <p>
                       <strong>Data e hora da criação do pedido:</strong> {{ loan.created_at|date:'d/m/y H:i:s' }}
                     </p>
-                    <form method="post" action="{% url 'return-loan' loan.id %}">
+                    <form method="POST" action="{% url 'loans:make-loan-return' loan.id %}">
                       {% csrf_token %}
                       <button class="bg-green-600 hover:bg-green-700 text-white px-4 py-1 rounded">Devolver</button>
                     </form>
@@ -66,10 +66,10 @@
                       <strong>Situação:</strong> Devolvido
                     </p>
                     <p>
-                      <strong>Data e hora da devolução:</strong> {{ emprestimo.date_returned|date:'d/m/y H:i:s' }}
+                      <strong>Data e hora da devolução:</strong> {{ loan.date_returned|date:'d/m/y H:i:s' }}
                     </p>
                     <p>
-                      <strong>Data e hora da criação do pedido:</strong> {{ emprestimo.created_at|date:'d/m/y H:i:s' }}
+                      <strong>Data e hora da criação do pedido:</strong> {{ loan.created_at|date:'d/m/y H:i:s' }}
                     </p>
                   {% endif %}
                 </div>

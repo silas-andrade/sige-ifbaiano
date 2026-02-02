@@ -20,7 +20,7 @@ app_name = 'loans'
 urlpatterns = [
     
     path('request-loan/', RequestLoan, name='request-loan'),
-    path('make-loan-return/', MakeLoanReturn, name='make-loan-return'),
+    path('make-loan-return/<str:pk>', MakeLoanReturn, name='make-loan-return'),
     path('dashboard-user/', DashboardUser, name='dashboard-user'),
     path('dashboard-admin/', DashboardAdmin, name='dashboard-admin'),
     path('all-loans/', ViewAllLoans, name='all-loans'),

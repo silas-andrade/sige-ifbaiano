@@ -1,4 +1,9 @@
 <li><a href="{% url 'home' %}" class="nav-link">Inicial</a></li>
+{% if request.user.is_staff %}
+<li><a href="{% url 'loans:dashboard-admin' %}" class="nav-link">Empréstimos</a></li>
+{% else %}
+<li><a href="{% url 'loans:dashboard-user' %}" class="nav-link">Empréstimos</a></li>
+{% endif %}
 <li><a href="{% url 'storage:menu-storage-user' %}" class="nav-link">Almoxarifado</a></li>
 <li><a href="{% url 'refectory:home' %}" class="nav-link">Refeitório</a></li>
 <li><a href="{% url 'about' %}" class="nav-link">Criadores</a></li>

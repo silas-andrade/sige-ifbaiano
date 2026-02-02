@@ -21,6 +21,7 @@ class Loan(models.Model):
     date_returned = models.DateTimeField(blank=True, null=True)
     is_returned = models.BooleanField(default=False)
     is_return_confirmed = models.BooleanField(default=False)
+    who_confirmed_the_return = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='who_confirmed_the_return', null=True, blank=True)
 
     def __str__(self):
         return f'{self.user} | {self.material} | {self.is_returned} | {self.is_return_confirmed}'
