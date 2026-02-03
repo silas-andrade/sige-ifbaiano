@@ -38,11 +38,11 @@ CSRF_TRUSTED_ORIGINS = [
 # Application definition
 
 INSTALLED_APPS = [
-    'loans',
-    'refectory',
-    'storage',
-    'accounts',
-    'moderator',
+    'apps.loans',
+    'apps.refectory',
+    'apps.storage',
+    'apps.users',
+    'apps.moderator',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -126,4 +126,4 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
-AUTH_USER_MODEL = 'accounts.User'
+AUTH_USER_MODEL = 'users.User'

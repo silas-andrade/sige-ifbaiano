@@ -1,0 +1,107 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Login | Sistema de Controle</title>
+
+    <link rel="stylesheet" href="{% static 'css/accounts/login.css' %}" />
+  </head>
+
+  <body>
+    <div class="wave-container">
+      <div class="wave wave-1"></div>
+      <div class="wave wave-2"></div>
+      <div class="wave wave-3"></div>
+      <div class="wave wave-4"></div>
+    </div>
+
+    <div class="gradient-particles">
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+    </div>
+
+    <div class="login-container">
+      <div class="login-card">
+        <div class="card-glow"></div>
+
+        <div class="login-header">
+          <div class="gradient-icon">
+            <div class="icon-wave"></div>
+            <img src="https://ifbaiano.edu.br/portal/estudante/wp-content/themes/padraoInternoIFBaiano/imagens/logo_vertical.png" alt="IF Baiano" class="if-logo-circle" />
+          </div>
+
+          <h2>Sistema de Controle</h2>
+          <p>Faça o login para continuar...</p>
+        </div>
+
+        <form class="login-form" method="POST" novalidate>
+          {% csrf_token %}
+
+          <div class="form-group">
+            <div class="input-container">
+              <div class="input-bg"></div>
+              <input type="email" name="email" required placeholder=" " />
+              <label>E-mail</label>
+              <div class="input-wave"></div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="input-container password-container">
+              <div class="input-bg"></div>
+              <input type="password" id="password" name="password" required placeholder=" " />
+              <label>Senha</label>
+
+              <button type="button" class="password-toggle" id="passwordToggle">
+                <div class="toggle-bg"></div>
+                <div class="toggle-icon">
+                  <img src="https://ifbaiano.edu.br/portal/estudante/wp-content/themes/padraoInternoIFBaiano/imagens/logo_vertical.png" alt="Mostrar senha" class="if-logo-icon" />
+                </div>
+              </button>
+
+              <div class="input-wave"></div>
+            </div>
+          </div>
+
+          <button type="submit" class="gradient-button">
+            <div class="button-bg"></div>
+            <div class="button-content">
+              <span class="btn-text">Login</span>
+            </div>
+            <div class="button-ripple"></div>
+          </button>
+        </form>
+
+        <div class="form-options">
+          <label class="checkbox-label"><input type="checkbox" name="remember" />Lembrar-me</label>
+
+          <a href="#" class="forgot-link">Esqueceu a senha?</a>
+        </div>
+
+        <p style="text-align:center; margin-top:20px; color:white;">
+          Nem tem uma conta?
+          <a href="{% url 'users:register' %}" class="forgot-link">Registre-se</a>
+        </p>
+      </div>
+    </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const passwordInput = document.getElementById('password')
+        const toggleButton = document.getElementById('passwordToggle')
+      
+        toggleButton.addEventListener('click', function () {
+          const isPassword = passwordInput.type === 'password'
+          passwordInput.type = isPassword ? 'text' : 'password'
+          toggleButton.classList.toggle('show-password', isPassword)
+        })
+      })
+    </script>
+  </body>
+</html>

@@ -12,11 +12,11 @@ urlpatterns = [
     path('about/', about, name='about'),
     
     
-    path('accounts/', include('accounts.urls')),
-    path('moderator/', include('moderator.urls')),
-    path('storage/', include('storage.urls')),
-    path('refectory/', include('refectory.urls')),
-    path('loans/', include('loans.urls')),
+    path('users/', include('apps.users.urls')),
+    path('moderator/', include('apps.moderator.urls')),
+    path('storage/', include('apps.storage.urls')),
+    path('refectory/', include('apps.refectory.urls')),
+    path('loans/', include('apps.loans.urls')),
     ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
