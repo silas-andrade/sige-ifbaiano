@@ -5,8 +5,8 @@ from datetime import datetime
 
 
 from apps.loans.models import Loan, Material, LoanApplication
-from .forms import LoanApplicationForm
 from apps.users.models import User
+from .forms import LoanApplicationForm
 
 
 @login_required(login_url="/users/login/")
@@ -43,7 +43,6 @@ def MakeLoanReturn(request, pk):
         return HttpResponse('<h1>Você não pode fazer isso!</h1>')
 
 
-
 @login_required(login_url='/accounts/login/')
 def DashboardUser(request):
 
@@ -63,8 +62,6 @@ def DashboardUser(request):
     return render(request, "loans/dashboard_user.html", context)
 
 
-
-
 @login_required(login_url='/accounts/login/')
 def DashboardAdmin(request):
     """
@@ -79,7 +76,6 @@ def DashboardAdmin(request):
             'emprestimos_esperando_confimacao_de_devolucao':Loan.objects.filter(is_returned=True, is_return_confirmed=False),
         }
         return render(request, "loans/dashboard_admin.html", context)
-
 
 
 @login_required(login_url='/accounts/login/')
@@ -110,6 +106,7 @@ def BlockUser(request, pk):
 
         user.save()
     return redirect('loans:dashboard-admin')
+
 
 @login_required(login_url='/accounts/login/')
 def ViewMaterials(request):
@@ -179,7 +176,6 @@ def AcceptLoanApplication(request, pk):
             return redirect('loans:dashboard-admin')
         return redirect('loans:dashboard-admin')
         
-
 
 @login_required(login_url='/accounts/login/')
 def RejectLoanApplication(request, pk):
