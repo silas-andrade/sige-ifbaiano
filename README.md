@@ -1,9 +1,8 @@
-
-# SIGE IFBAIANO - README
+# SIGE IFBAIANO
 
 ## 📋 Visão Geral
 
-O SIGE IFBAIANO é um sistema de gestão integrada desenvolvido para o Instituto Federal Baiano. Este projeto visa simplificar processos administrativos e acadêmicos através de uma plataforma centralizada e intuitiva.
+O SIGE IFBAIANO é um sistema de gestão integrada desenvolvido em meu estágio de TI. Este projeto visa simplificar processos administrativos e acadêmicos através de uma plataforma centralizada e intuitiva.
 
 
 ## 📄 Licença
