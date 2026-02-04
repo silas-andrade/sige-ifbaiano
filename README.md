@@ -1,12 +1,18 @@
 # SIGE IFBAIANO
 
+![GitHub repo size](https://img.shields.io/github/repo-size/silas-andrade/sige-ifbaiano?style=for-the-badge)
+![GitHub language count](https://img.shields.io/github/languages/count/silas-andrade/sige-ifbaiano?style=for-the-badge)
+![GitHub forks](https://img.shields.io/github/forks/silas-andrade/sige-ifbaiano?style=for-the-badge)
+
+<img src="site-image.png" alt="Exemplo imagem">
+
 ## 📋 Overview
 
 SIGE is an integrated management system developed during my IT internship. This project aims to simplify administrative and academic processes through a centralized and intuitive platform.
 
 ## 🤝 Contributors
 
-Meus colegas que contribuiram no projeto durante o estágio:
+My colleagues who contributed to the project during my internship:
 
 <table>
   <tr>
@@ -35,7 +41,6 @@ Meus colegas que contribuiram no projeto durante o estágio:
   </tr>
 </table>
 
+## 📄 License
 
-## 📄 Licença
-
-Este projeto está licenciado sob a licença MIT. Consulte o arquivo [LICENSE](LICENSE) para mais detalhes.
+This project is licensed under the MIT license. See the [LICENSE](LICENSE) file for more details.
