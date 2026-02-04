@@ -12,7 +12,7 @@ SIGE is an integrated management system developed during my IT internship. This 
 
 ## 🤝 Contributors
 
-Meus colegas que contribuiram no projeto durante o estágio:
+My colleagues who contributed to the project during my internship:
 
 <table>
   <tr>
