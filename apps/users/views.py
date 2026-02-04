@@ -17,7 +17,7 @@ def RegisterPage(request):
         if form.is_valid():
 
             user = form.save(commit=False)
-            user.matricula = user.matricula.upper()
+            user.enrollment_number = user.enrollment_number.upper()
             user.save()
 
             login(request, user)
@@ -52,12 +52,12 @@ def LoginPage(request):
     return render(request, "users/login.html")
 
 
-@login_required(login_url='/accounts/login/')
+@login_required(login_url='/users/login/')
 def LogoutUser(request):
     logout(request)
     return redirect('home')
 
-@login_required(login_url='/accounts/login/')
+@login_required(login_url='/users/login/')
 def ProfilePage(request):
     user = request.user
 

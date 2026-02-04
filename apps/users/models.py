@@ -2,6 +2,8 @@ from django.contrib.auth.models import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+from uuid import uuid4
+
 class UserManager(BaseUserManager):
 
     use_in_migrations = True
@@ -32,14 +34,17 @@ class UserManager(BaseUserManager):
 class User(AbstractUser):
     username = None  # remove username
 
+
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     full_name = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
-    matricula = models.CharField(max_length=20, unique=True)
-    objects = UserManager()  # 👈 MUITO IMPORTANTE
+    enrollment_number = models.CharField(max_length=20, unique=True)
     is_blocked_loans = models.BooleanField(default=False)
+    
+    objects = UserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['full_name', 'matricula']
+    REQUIRED_FIELDS = ['full_name', 'enrollment_number']
 
     def __str__(self):
         return self.email

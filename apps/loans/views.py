@@ -43,7 +43,7 @@ def MakeLoanReturn(request, pk):
         return HttpResponse('<h1>Você não pode fazer isso!</h1>')
 
 
-@login_required(login_url='/accounts/login/')
+@login_required(login_url='/users/login/')
 def DashboardUser(request):
 
     context = {
@@ -62,7 +62,7 @@ def DashboardUser(request):
     return render(request, "loans/dashboard_user.html", context)
 
 
-@login_required(login_url='/accounts/login/')
+@login_required(login_url='/users/login/')
 def DashboardAdmin(request):
     """
     Mostra aos moderadores todos os pedidos pendentes 
@@ -78,7 +78,7 @@ def DashboardAdmin(request):
         return render(request, "loans/dashboard_admin.html", context)
 
 
-@login_required(login_url='/accounts/login/')
+@login_required(login_url='/users/login/')
 def ViewAllLoans(request):
     user = User.objects.get(email=request.user)
     emprestimos_nao_devolvidos = list(
@@ -91,7 +91,7 @@ def ViewAllLoans(request):
     return render(request, "loans/all_loans.html", context)
 
 
-@login_required(login_url='/accounts/login/')
+@login_required(login_url='/users/login/')
 def BlockUser(request, pk):
     if not request.user.is_staff:
         return redirect('loans:dashboard-user')
@@ -108,7 +108,7 @@ def BlockUser(request, pk):
     return redirect('loans:dashboard-admin')
 
 
-@login_required(login_url='/accounts/login/')
+@login_required(login_url='/users/login/')
 def ViewMaterials(request):
     if request.user.is_staff:
         materias = Material.objects.all()
@@ -120,7 +120,7 @@ def ViewMaterials(request):
          return redirect('loans:dashboard-user')
     
 
-@login_required(login_url='/accounts/login/')
+@login_required(login_url='/users/login/')
 def DeleteMaterial(request, pk):
     if request.user.is_staff:
         materiais = Material.objects.get(id=pk)
@@ -130,7 +130,7 @@ def DeleteMaterial(request, pk):
         return redirect('loans:dashboard-user')
 
 
-@login_required(login_url='/accounts/login/')
+@login_required(login_url='/users/login/')
 def AcceptMaterialReturn(request, pk):
     if not request.user.is_staff:
         return redirect('loans:dashboard-user')
@@ -150,7 +150,7 @@ def AcceptMaterialReturn(request, pk):
         return redirect('loans:dashboard-admin')
 
 
-@login_required(login_url='/accounts/login/')
+@login_required(login_url='/users/login/')
 def AcceptLoanApplication(request, pk):
     if not request.user.is_staff:
         return redirect('loans:dashboard-user')
@@ -177,7 +177,7 @@ def AcceptLoanApplication(request, pk):
         return redirect('loans:dashboard-admin')
         
 
-@login_required(login_url='/accounts/login/')
+@login_required(login_url='/users/login/')
 def RejectLoanApplication(request, pk):
     if not request.user.is_staff:
         return redirect('loans:dashboard-user')

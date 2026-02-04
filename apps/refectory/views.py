@@ -7,7 +7,7 @@ from django.db.models import Max
 
 from .models import Token
 
-@login_required(login_url='/accounts/login/')
+@login_required(login_url='/users/login/')
 def refectory_page(request):
     today = timezone.now().date()
     user = request.user
@@ -23,7 +23,7 @@ def refectory_page(request):
     return render(request, 'refectory/refectory.html', context)
 
 
-@login_required(login_url='/accounts/login/')
+@login_required(login_url='/users/login/')
 def queue_status(request):
     """
     Retorna apenas o HTML do status da fila do usuário
@@ -57,7 +57,7 @@ def queue_status(request):
 
 
 @require_POST
-@login_required(login_url='/accounts/login/')
+@login_required(login_url='/users/login/')
 @transaction.atomic
 def create_token(request):
     user = request.user
@@ -89,7 +89,7 @@ from django.db import transaction
 
 
 @require_POST
-@login_required(login_url='/accounts/login/')
+@login_required(login_url='/users/login/')
 def validate_token(request, pk):
     if not request.user.is_staff:
         return redirect('home')
@@ -106,7 +106,7 @@ def validate_token(request, pk):
 
     return redirect('moderator:scanner')
 
-@login_required(login_url='/accounts/login/')
+@login_required(login_url='/users/login/')
 def scan_token(request, pk):
 
     if not request.user.is_staff:

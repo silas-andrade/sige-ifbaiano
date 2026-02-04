@@ -5,12 +5,12 @@ from django.contrib.admin.views.decorators import staff_member_required
 
 from .models import Order, OrderItem, Item
 
-@login_required(login_url='/accounts/login/')
+@login_required(login_url='/users/login/')
 def MenuStorageUser(request):
     return render(request, 'storage/menu_storage.html')
 
 
-@login_required(login_url='/accounts/login/')
+@login_required(login_url='/users/login/')
 def RequestOrder(request):
     if request.method == "POST":
         items_request = request.POST.getlist("items[]")
@@ -54,7 +54,7 @@ def RequestOrder(request):
     return render(request, 'storage/requestorder.html', context)
 
 
-@login_required(login_url='/accounts/login/')
+@login_required(login_url='/users/login/')
 def order_history(request):
     orders = Order.objects.filter(user=request.user).order_by('-created_at')
     return render(request, 'storage/order_history.html', {
