@@ -49,7 +49,7 @@ def LoginPage(request):
         else:
             messages.error(request, 'E-mail ou senha inválidos.')
 
-    return render(request, "accounts/login.html")
+    return render(request, "users/login.html")
 
 
 @login_required(login_url='/accounts/login/')
