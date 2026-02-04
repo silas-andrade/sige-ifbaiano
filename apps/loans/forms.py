@@ -19,6 +19,7 @@ class LoanApplicationForm(ModelForm):
         }
         labels = {
             'material': 'Material',
-            'expected_return_date': 'Data prevista para devolução'
+            'expected_return_date': 'Data prevista para devolução',
+            'quantity':'Quantidade'
         }
     
