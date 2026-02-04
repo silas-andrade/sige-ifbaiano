@@ -2,7 +2,7 @@
 
 ## 📋 Overview
 
-> SIGE is an integrated management system developed during my IT internship. This project aims to simplify administrative and academic processes through a centralized and intuitive platform.
+SIGE is an integrated management system developed during my IT internship. This project aims to simplify administrative and academic processes through a centralized and intuitive platform.
 
 ## 🤝 Contributors
 
