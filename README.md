@@ -1,10 +1,10 @@
 # SIGE IFBAIANO
 
-## 📋 Visão Geral
+## 📋 Overview
 
-O SIGE IFBAIANO é um sistema de gestão integrada desenvolvido em meu estágio de TI. Este projeto visa simplificar processos administrativos e acadêmicos através de uma plataforma centralizada e intuitiva.
+SIGE is an integrated management system developed during my IT internship. This project aims to simplify administrative and academic processes through a centralized and intuitive platform.
 
-## 🤝 Contribuidores
+## 🤝 Contributors
 
 Meus colegas que contribuiram no projeto durante o estágio:
 
