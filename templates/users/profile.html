@@ -7,7 +7,7 @@
 
 {% block head_extra %}
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link rel="stylesheet" href="{% static 'css/accounts/profile.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/users/profile.css' %}" />
 {% endblock %}
 
 {% block content %}
@@ -19,7 +19,7 @@
 
           <div>
             <h2>{{ user.full_name }}</h2>
-            <p>{{ user.matricula }}</p>
+            <p>{{ user.enrollment_number }}</p>
           </div>
         </div>
 
@@ -53,6 +53,6 @@
 {% endblock %}
 
 {% block extra_scripts %}
-  <script src="{% static 'js/accounts/profile.js' %}"></script>
+  <script src="{% static 'js/users/profile.js' %}"></script>
   <script src="https://cdn.tailwindcss.com"></script>
 {% endblock %}

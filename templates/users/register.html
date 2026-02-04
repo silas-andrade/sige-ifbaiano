@@ -7,7 +7,7 @@
 
     <title>Cadastro | Sistema de Controle</title>
 
-    <link rel="stylesheet" href="{% static 'css/accounts/register.css' %}">
+    <link rel="stylesheet" href="{% static 'css/users/register.css' %}">
 </head>
 
 <body>
@@ -49,10 +49,10 @@
             <!-- Matrícula -->
             <div class="form-group">
                 <div class="input-container">
-                    {{ form.matricula }}
-                    <label>{{ form.matricula.label }}</label>
+                    {{ form.enrollment_number }}
+                    <label>{{ form.enrollment_number.label }}</label>
                 </div>
-                {{ form.matricula.errors }}
+                {{ form.enrollment_number.errors }}
             </div>
 
             <!-- Email -->

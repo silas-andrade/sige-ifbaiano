@@ -14,7 +14,7 @@
                         {% for emprestimo in emprestimos_nao_devolvidos %}
                             <div class="bg-white rounded-xl shadow p-4 space-y-2">
                                 <p><strong>Usuário:</strong> {{ emprestimo.user.full_name }}</p>
-                                <p><strong>Matrícula:</strong> {{ emprestimo.user.matricula }}</p>
+                                <p><strong>Matrícula:</strong> {{ emprestimo.user.enrollment_number }}</p>
                                 <p><strong>Item:</strong> {{ emprestimo.material.name }}</p>
                                 <p><strong>Quantidade:</strong> {{ emprestimo.quantity }}</p>
                                 <p><strong>Administrador que aprovou:</strong> {{ emprestimo.who_approved.full_name }}</p>
