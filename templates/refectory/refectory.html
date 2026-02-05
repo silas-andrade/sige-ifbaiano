@@ -135,15 +135,6 @@ Módulo do Aluno • Refeitório
                  class="w-12 h-12 text-green-500 drop-shadow-md"></i>
             </div>
           </div>
-
-          <div
-            hx-get="{% url 'refectory:queue-status' %}"
-            hx-trigger="every 5s"
-            hx-swap="outerHTML"
-          >
-            {# include "refectory/partials/queue_status.html" #}
-          </div>
-
           {% else %}
           <div class="text-4xl font-black text-gray-900 tracking-widest mb-6">
             BOM ALMOÇO!!!
